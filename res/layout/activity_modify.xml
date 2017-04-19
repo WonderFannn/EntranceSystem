@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="@drawable/bg_entranceactivity_main"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_entranceactivity_top" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:src="@drawable/ic_entranceactivity_logo" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingRight="5dp"
+                    android:src="@drawable/ic_entranceactivity_map" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center|right"
+                    android:includeFontPadding="false"
+                    android:paddingRight="10dp"
+                    android:text="德商国际4栋2单元"
+                    android:textColor="#E1EBF8"
+                    android:textSize="26sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingRight="10dp" >
+
+                <DigitalClock
+                    android:id="@+id/digitalClock1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="DigitalClock"
+                    android:includeFontPadding="false"
+                    android:textColor="#E1EBF8"
+                    android:textSize="26sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+        
+    </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       android:layout_marginTop="5dp"
+       android:layout_weight="2.5"
+       android:orientation="vertical"
+       android:paddingTop="5dp" >
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           android:layout_weight="1" >
+
+           <TextView
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="1" />
+
+           <TextView
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="0.5"
+               android:background="@drawable/bg_entranceactivity_input"
+               android:gravity="right|center"
+               android:text="ID"
+               android:paddingRight="10dp"
+               android:textColor="#1E90FF"
+               android:textSize="30sp" />
+
+           <TextView
+               android:id="@+id/TextView_user_ID"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="2"
+               android:background="@drawable/bg_entranceactivity_input"
+               android:gravity="center"
+               android:textColor="#1E90FF"
+               android:text="0123456789"
+               android:textSize="30sp" />
+
+           <TextView
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="1"
+               android:gravity="center" />
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           android:layout_weight="1" >
+
+           <TextView
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="1" />
+
+           <TextView
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="0.5"
+               android:background="@drawable/bg_entranceactivity_input"
+               android:gravity="right|center"
+               android:text="密码"
+               android:paddingRight="10dp"
+               android:textColor="#1E90FF"
+               android:textSize="30sp" />
+
+           <TextView
+               android:id="@+id/TextView_user_password"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="2"
+               android:background="@drawable/bg_entranceactivity_input"
+               android:gravity="center"
+               android:text="123456"
+               android:textColor="#1E90FF"
+               android:textSize="30sp" />
+
+           <TextView
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="1"
+               android:gravity="center" />
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           android:layout_weight="1" >
+
+           <TextView
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="1" />
+
+           <TextView
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="0.5"
+               android:background="@drawable/bg_entranceactivity_input"
+               android:gravity="right|center"
+               android:text="模式"
+               android:paddingRight="10dp"
+               android:textColor="#1E90FF"
+               android:textSize="30sp" />
+
+           <TextView
+               android:id="@+id/TextView_user_mode"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="2"
+               android:background="@drawable/bg_entranceactivity_input"
+               android:gravity="center"
+               android:textColor="#1E90FF"
+               android:text="卡号+密码"
+               android:textSize="30sp" />
+
+           <TextView
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="1"
+               android:gravity="center" />
+       </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView_message"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="请按数字键选择功能\n1.修改密码.\n2.修改模式\n"
+            android:textColor="#E1EBF8"
+            android:textSize="32sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_entranceactivity_buttom" >
+
+        <TextView
+            android:id="@+id/tv_callbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="*确定"
+            android:textColor="#E1EBF8"
+            android:textSize="32sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="#返回"
+            android:textColor="#E1EBF8"
+            android:textSize="32sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
