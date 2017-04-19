@@ -158,13 +158,13 @@ public class Hex {
 	
 	public static void main(String[] args) {
 		byte[] bytes;
-//		System.out.println("bytes length:"+bytes.length);
-		byte[] bytes1 = {(byte) 0xff,1,5};
-		byte[] bytes2 = {1,(byte) 0xff,1,6};
-		bytes = byteMerger(byteMerger(bytes1, bytes2), bytes1);
+		bytes = decodeHex(" 01 0 203 04  05 f6".replaceAll(" ","").toCharArray());
 		System.out.println("bytes length:"+bytes.length);
-		bytes = byteMerger(byteMerger(bytes, bytes2), bytes1);
-		System.out.println("bytes length:"+bytes.length);
+		String string = encodeHexStr(bytes,false);
+		for (int i = 0; i < string.length(); i+=2) {
+			
+		}
+		System.out.println("bytes :"+ string);
 	}
 	
 	public static byte[] byteMerger(byte[] byte_1, byte[] byte_2){  

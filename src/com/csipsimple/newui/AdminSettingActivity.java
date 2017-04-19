@@ -59,7 +59,7 @@ public class AdminSettingActivity extends Activity implements OnDataReceiveListe
 		byte[] mBuffer = {(byte) 0xF4,//命令字
 							//验证模式卡号密码用ff填充
 							(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,
-							(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,
+							(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,
 							(byte) 0x00,//mode
 							(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,//用户数,管理员数
 							(byte) 0x00,(byte) 0x00};//包尾

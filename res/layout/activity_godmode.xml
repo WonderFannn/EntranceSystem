@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="发送命令"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/editText_sendBuffer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:textColor="#fff"
+            android:ems="10" >
+
+            <requestFocus />
+        </EditText>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="接受数据"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView_receive1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5"
+                android:text="1"
+                android:gravity="center_vertical"
+                android:textColor="#fff"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/textView_receive2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5"
+                android:text="2"
+                android:gravity="center_vertical"
+                android:textColor="#fff"
+                android:textSize="25sp" />
+            <TextView
+                android:id="@+id/textView_receive3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5"
+                android:text="3"
+                android:gravity="center_vertical"
+                android:textColor="#fff"
+                android:textSize="25sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"  >
+
+        <Button
+            android:id="@+id/button_cmdCode"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="命令字" />
+        
+        <Button
+            android:id="@+id/button_4F"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="4个FF" />
+        <Button
+            android:id="@+id/button_6F"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="6个FF" />
+        <Button
+            android:id="@+id/button_01"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="01" />
+        <Button
+            android:id="@+id/button_3F"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="3个FF" />
+        <Button
+            android:id="@+id/button_send"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="发送" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <Button
+            android:id="@+id/Button_00"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="00" />
+
+        <Button
+            android:id="@+id/Button_1F"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="FF" />
+
+        <Button
+            android:id="@+id/Button_123456"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="010203040506" />
+
+        <Button
+            android:id="@+id/Button_3B480CC5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="3B480CC5" />
+
+        <Button
+            android:id="@+id/Button_4BE437C5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="4BE437C5" />
+
+        <Button
+            android:id="@+id/Button_clear"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="清除" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <Button
+            android:id="@+id/Button_9B59F9C4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="9B59F9C4" />
+
+        <Button
+            android:id="@+id/Button_default1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="预留1" />
+
+        <Button
+            android:id="@+id/Button_default2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="预留2" />
+
+        <Button
+            android:id="@+id/Button_default3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="预留3" />
+
+        <Button
+            android:id="@+id/Button_default4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="预留4" />
+
+        <Button
+            android:id="@+id/Button_return"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="返回" />
+    </LinearLayout>
+
+</LinearLayout>

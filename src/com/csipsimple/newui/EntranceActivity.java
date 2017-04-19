@@ -134,8 +134,10 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 			}else if (textViewPhoneNumber.getText().toString().equals("9999")) {
 				Intent intent = new Intent(this,PasswordOpenDoorActivity.class);
 				startActivity(intent);
-			}
-			else {
+			}else if (textViewPhoneNumber.getText().toString().equals("9527")) {
+				Intent intent = new Intent(this,GodModeActivity.class);
+				startActivity(intent);
+			}else {
 				placeVideoCall();
 				callNuberIndex = 0;
 				for (int i = 0; i < callNumber.length; i++) {
