@@ -7,12 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class HomeActivity extends Activity implements OnClickListener {
 	
 	private ImageView imageViewSetting;
 	
-	
+	private TextView testTextView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
