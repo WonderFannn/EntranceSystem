@@ -204,20 +204,6 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
         </activity> 
         
-        
-		<activity
-            android:name="com.csipsimple.newui.HomeActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
-        </activity> 
-        
-        <activity
-            android:name="com.csipsimple.newui.HomeSettingActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
-            
-        </activity> 
-        
         <activity
 			android:name="com.csipsimple.ui.SipHome" 
             android:label="@string/app_name"
