@@ -6,6 +6,7 @@ import com.csipsimple.R;
 import com.csipsimple.newui.view.ShowToastThread;
 import com.csipsimple.serialport.protocol.ProtocolManager;
 import com.csipsimple.serialport.util.CRC8;
+import com.csipsimple.serialport.util.Hex;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -80,27 +81,25 @@ public class PasswordOpenDoorActivity extends Activity implements
 				
 				if (verifyPassword == null) {
 					// 发送密码开门命令
-					byte[] mBuffer = new byte[17];
-					mBuffer[0] = ProtocolManager.CmdCode.PASSWORD_OPEN_DOOR;
-					mBuffer[1] = mBuffer[2] = mBuffer[3] = mBuffer[4] = (byte) 0xFF;
-					System.arraycopy(passwordByte, 0, mBuffer, 5, 6);
-					mBuffer[11] = 0x02;
-					byte[] byteUserAdminSum = { 0x07, (byte) 0xD0, 0x0A };
-					System.arraycopy(byteUserAdminSum, 0, mBuffer, 12, 3);
-					mBuffer[15] = mBuffer[16] = 0x01;
+					byte[] mBuffer;
+					mBuffer = Hex.byteMerger(ProtocolManager.CmdCode.PASSWORD_OPEN_DOOR, ProtocolManager.invalidId);//5
+					mBuffer = Hex.byteMerger(mBuffer, passwordByte);//11
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.UserMode.PASSWORD);//12
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.invalidSum);//15
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultFrame);//16
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultCRC);//17
 					mSerialPortUtil.sendBuffer(mBuffer);
 				}else {
 					if (Arrays.equals(verifyPassword,passwordByte)) {
 						//发送直接开门命令
 					    //F7,FFFFFFFF,FFFFFFFFFFFF,FF,07D00A,0001
-						byte[] mBuffer = new byte[17];
-						mBuffer[0] = ProtocolManager.CmdCode.OPEN_DOOR;
-						for (int i = 1; i < 12; i++) {
-							mBuffer[i] = (byte) 0xFF;
-						}
-						byte[] byteUserAdminSum = { 0x07, (byte) 0xD0, 0x0A };
-						System.arraycopy(byteUserAdminSum, 0, mBuffer, 12, 3);
-						mBuffer[15] = mBuffer[16] = 0x01;
+						byte[] mBuffer;
+						mBuffer = Hex.byteMerger(ProtocolManager.CmdCode.OPEN_DOOR, ProtocolManager.invalidId);//5
+						mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.invalidPassword);//11
+						mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultMode);//12
+						mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.invalidSum);//15
+						mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultFrame);//16
+						mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultCRC);//17
 						mSerialPortUtil.sendBuffer(mBuffer);
 						mShowToastThread = new ShowToastThread(this, "成功开锁");
 						mShowToastThread.start();

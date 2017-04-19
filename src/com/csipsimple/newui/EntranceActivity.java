@@ -269,10 +269,6 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 			}
 		});
 		
-		SharedPreferences.Editor editor = getSharedPreferences("CardData", MODE_PRIVATE).edit();
-		editor.putInt("UserNum", 0);
-		editor.putInt("AdminNum", 0);
-		editor.apply();
 		mSerialPortUtil = SerialPortUtil.getInstance();
 		mSerialPortUtil.setOnDataReceiveListener(this);
 		

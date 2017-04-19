@@ -68,9 +68,9 @@ public class ModifyActivity extends Activity implements OnDataReceiveListener {
 				ProtocolManager.CmdCode.VERIFY_USER,// 命令字
 				// 验证模式卡号密码用ff填充
 				(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
-				(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
-				(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, 
-				(byte) 0x00, (byte) 0x5, (byte) 0x0A,// 用户数,管理员数
+				(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,	(byte) 0xFF, (byte) 0xFF,
+				(byte) 0xFF, 
+				(byte) 0xFF, (byte) 0xFF, (byte) 0xFF,// 用户数,管理员数
 				(byte) 0x00, (byte) 0x00 };// 包尾
 		mSerialPortUtil.sendBuffer(mBuffer);
 		findViews();

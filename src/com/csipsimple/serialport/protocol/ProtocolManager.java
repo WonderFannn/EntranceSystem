@@ -43,4 +43,15 @@ public class ProtocolManager {
 		public static final byte CARDANDPASSWORD = (byte) 0x03;
 	}
 	
+	public static final byte[] invalidId = {(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF};
+	public static final byte[] invalidPassword = {(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF};
+	public static final byte[] defaultPassword = {(byte) 0x01,(byte) 0x02,(byte) 0x03,(byte) 0x04,(byte) 0x05,(byte) 0x06};
+	public static final byte defaultMode = (byte) 0x01;
+	public static final byte[] invalidSum = {(byte) 0xFF,(byte) 0xFF,(byte) 0xFF};
+	public static final byte defaultFrame = (byte) 0x00;
+	public static final byte defaultCRC = (byte) 0xFF;
+	
+	
+	
+	
 }

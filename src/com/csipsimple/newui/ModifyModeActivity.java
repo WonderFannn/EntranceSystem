@@ -6,6 +6,7 @@ import com.csipsimple.R;
 import com.csipsimple.newui.view.ShowToastThread;
 import com.csipsimple.serialport.protocol.ProtocolManager;
 import com.csipsimple.serialport.util.CRC8;
+import com.csipsimple.serialport.util.Hex;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -73,38 +74,18 @@ public class ModifyModeActivity extends Activity implements
 
 	private void changeMode(int i) {
 		newMode = i;
-		// 发送修改模式命令
-		int contentLength = 18;
-		byte[] mbuffer = new byte[contentLength];
-		// 包头
-		byte[] byteHead = { ProtocolManager.CmdCode.MODIFY };
 		// 计算出用户IDbyte
 		byte[] byteId = userIDByte;
 		// 密码转为byte数组
 		byte[] bytePassword = passwordByte;
-		int mBufferIndex = 0;
-		System.arraycopy(byteHead, 0, mbuffer, mBufferIndex, byteHead.length);
-		mBufferIndex += byteHead.length;
-		System.arraycopy(byteId, 0, mbuffer, mBufferIndex, byteId.length);
-		mBufferIndex += byteId.length;
-		System.arraycopy(bytePassword, 0, mbuffer, mBufferIndex,
-				bytePassword.length);
-		mBufferIndex += bytePassword.length;
-		mbuffer[mBufferIndex++] = (byte) i;
-		
-		SharedPreferences cardData = getSharedPreferences("CardData", MODE_PRIVATE);
-		int userNum = cardData.getInt("UserNum", 0);
-		int adminNum = cardData.getInt("AdminNum", 0);
-		byte[] userNumByte = ByteBuffer.allocate(4).putInt(userNum).array();
-		System.arraycopy(userNumByte, 2, mbuffer, mBufferIndex, 2);
-		mBufferIndex += 2;
-		mbuffer[mBufferIndex++] = (byte) adminNum;
-		
-		while (mBufferIndex < contentLength) {
-			mbuffer[mBufferIndex] = (byte) 0x01;
-			mBufferIndex++;
-		}
-		mSerialPortUtil.sendBuffer(mbuffer);
+		byte[] mBuffer;
+		mBuffer = Hex.byteMerger(ProtocolManager.CmdCode.MODIFY, byteId);//5
+		mBuffer = Hex.byteMerger(mBuffer, bytePassword);//11
+		mBuffer = Hex.byteMerger(mBuffer, (byte) newMode);//12
+		mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.invalidSum);//15
+		mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultFrame);//16
+		mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultCRC);//17
+		mSerialPortUtil.sendBuffer(mBuffer);
 	}
 
 	@Override

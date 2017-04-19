@@ -60,7 +60,8 @@ public class AdminSettingActivity extends Activity implements OnDataReceiveListe
 							//验证模式卡号密码用ff填充
 							(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,
 							(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,
-							(byte) 0x07,(byte) 0xD0,(byte) 0x0A,//用户数,管理员数
+							(byte) 0x00,//mode
+							(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,//用户数,管理员数
 							(byte) 0x00,(byte) 0x00};//包尾
 		mSerialPortUtil.sendBuffer(mBuffer);
 		if (!isVerify) {

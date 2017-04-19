@@ -157,10 +157,43 @@ public class Hex {
 //	}
 	
 	public static void main(String[] args) {
-		byte[] bytes = {(byte) 0xff,1,5};
-
-		System.out.println(""+byteToInt(bytes));
+		byte[] bytes;
+//		System.out.println("bytes length:"+bytes.length);
+		byte[] bytes1 = {(byte) 0xff,1,5};
+		byte[] bytes2 = {1,(byte) 0xff,1,6};
+		bytes = byteMerger(byteMerger(bytes1, bytes2), bytes1);
+		System.out.println("bytes length:"+bytes.length);
+		bytes = byteMerger(byteMerger(bytes, bytes2), bytes1);
+		System.out.println("bytes length:"+bytes.length);
 	}
+	
+	public static byte[] byteMerger(byte[] byte_1, byte[] byte_2){  
+        byte[] byte_3 = new byte[byte_1.length+byte_2.length];  
+        System.arraycopy(byte_1, 0, byte_3, 0, byte_1.length);  
+        System.arraycopy(byte_2, 0, byte_3, byte_1.length, byte_2.length);  
+        return byte_3;
+    }
+	
+	public static byte[] byteMerger(byte byte_1, byte[] byte_2){  
+        byte[] byte_3 = new byte[1+byte_2.length];  
+        byte_3[0] = byte_1;
+        System.arraycopy(byte_2, 0, byte_3, 1, byte_2.length);  
+        return byte_3;
+    }
+	
+	public static byte[] byteMerger(byte[] byte_1, byte byte_2){  
+        byte[] byte_3 = new byte[byte_1.length+1];  
+        System.arraycopy(byte_1, 0, byte_3, 0, byte_1.length);  
+        byte_3[byte_1.length] = byte_2;
+        return byte_3;
+    }
+	
+	public static byte[] byteMerger(byte byte_1, byte byte_2){  
+        byte[] byte_3 = new byte[2];  
+        byte_3[0] = byte_1;
+        byte_3[1] = byte_2;
+        return byte_3;
+    }
 	
 	public static int byteToInt(byte[] userNumbyte) {
 		int sum = 0;

@@ -74,28 +74,6 @@ public class SerialPortUtil {
         }
     }
 
-    /** 
-     * 发送指令到串口 
-     *  
-     * @param cmd 
-     * @return 
-     */  
-    public boolean sendCmds(String cmd) {  
-        boolean result = true;  
-        byte[] mBuffer = cmd.getBytes();
-        try {  
-            if (mOutputStream != null) {  
-                mOutputStream.write(mBuffer);  
-            } else {  
-                result = false;  
-            }  
-        } catch (IOException e) {  
-            e.printStackTrace();
-            result = false;
-        }  
-        return result;
-    }
-
     public boolean sendBuffer(byte[] mBuffer) {
     	// - 添加包头,长度
     	int bufferlength = mBuffer.length;

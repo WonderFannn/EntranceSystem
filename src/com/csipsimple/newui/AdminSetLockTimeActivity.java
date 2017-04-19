@@ -68,14 +68,16 @@ public class AdminSetLockTimeActivity extends Activity implements
 		case 155:
 			if (isNumeric(lockTime) && 255 >= Integer.parseInt(lockTime)) {
 				byte lockTimeByte = (byte) Integer.parseInt(lockTime);
-				byte[] buffer = {(byte) 0xF8,					//命令字
+				byte[] mBuffer = {(byte) 0xF8,					//命令字
 						//验证模式卡号密码用ff填充
 						(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,
 						(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,
-						lockTimeByte,//回锁时间
-						(byte) 0x07,(byte) 0xD0,(byte) 0x0A,//用户数,管理员数
-						(byte) 0x00,(byte) 0x00};//包尾
-				mSerialPortUtil.sendBuffer(buffer);
+						(byte) 0x01,//模式
+						(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,//用户数,管理员数
+						(byte) 0x00,
+						lockTimeByte,
+						(byte) 0x00};//包尾
+				mSerialPortUtil.sendBuffer(mBuffer);
 			}else {
 				mShowToastThread = new ShowToastThread(this,"无效的时间值");
 				mShowToastThread.start();

@@ -75,11 +75,6 @@ public class ModifyPasswordActivity extends Activity implements
 		case 155:
 //			*键
 			if (newPasswordIndex == 6) {
-				//发送修改密码命令
-				int contentLength = 18;
-				byte[] mbuffer = new byte[contentLength];
-				// 包头
-				byte[] byteHead = { ProtocolManager.CmdCode.MODIFY };
 				// 计算出用户IDbyte
 				byte[] byteId = userIDByte;
 				// 密码转为byte数组
@@ -87,29 +82,15 @@ public class ModifyPasswordActivity extends Activity implements
 				for (int i = 0; i < newPasswordIndex; i++) {
 					bytePassword[i] = (byte) newPassword[i];
 				}
-				int mBufferIndex = 0;
-				System.arraycopy(byteHead, 0, mbuffer, mBufferIndex,
-						byteHead.length);
-				mBufferIndex += byteHead.length;
-				System.arraycopy(byteId, 0, mbuffer, mBufferIndex, byteId.length);
-				mBufferIndex += byteId.length;
-				System.arraycopy(bytePassword, 0, mbuffer, mBufferIndex, bytePassword.length);
-				mBufferIndex += bytePassword.length;
-				mbuffer[mBufferIndex++] = (byte) mode;
 				
-				SharedPreferences cardData = getSharedPreferences("CardData", MODE_PRIVATE);
-				int userNum = cardData.getInt("UserNum", 0);
-				int adminNum = cardData.getInt("AdminNum", 0);
-				byte[] userNumByte = ByteBuffer.allocate(4).putInt(userNum).array();
-				System.arraycopy(userNumByte, 2, mbuffer, mBufferIndex, 2);
-				mBufferIndex += 2;
-				mbuffer[mBufferIndex++] = (byte) adminNum;
-				
-				while (mBufferIndex < contentLength) {
-					mbuffer[mBufferIndex] = (byte) 0x01;
-					mBufferIndex++;
-				}
-				mSerialPortUtil.sendBuffer(mbuffer);
+				byte[] mBuffer;
+				mBuffer = Hex.byteMerger(ProtocolManager.CmdCode.MODIFY, byteId);//5
+				mBuffer = Hex.byteMerger(mBuffer, bytePassword);//11
+				mBuffer = Hex.byteMerger(mBuffer, (byte) mode);//12
+				mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.invalidSum);//15
+				mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultFrame);//16
+				mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultCRC);//17
+				mSerialPortUtil.sendBuffer(mBuffer);
 			}else {
 				mShowToastThread = new ShowToastThread(this, "请输入正确的密码");
 				mShowToastThread.start();

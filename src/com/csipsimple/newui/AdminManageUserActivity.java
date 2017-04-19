@@ -164,26 +164,14 @@ public class AdminManageUserActivity extends Activity implements
 					}
 					Log.d(TAG,"id:----"+id+"-----");
 					byte[] byteId = Hex.decodeHex(id.toCharArray());
-					byte[] bytepassword = {1,2,3,4,5,6};
-					byte[] mbuffer = new byte[17];
-					mbuffer[0] = cmdCode;
-					System.arraycopy(byteId, 0, mbuffer, 1, byteId.length);
-					System.arraycopy(bytepassword, 0, mbuffer, 5, bytepassword.length);
-					int dex = byteId.length + bytepassword.length + 1;
-					mbuffer[dex++] = 0x01;//模式设为卡号模式
-					//设置用户数管理员数
-					SharedPreferences cardData = getSharedPreferences("CardData", MODE_PRIVATE);
-					int userNum = cardData.getInt("UserNum", 0);
-					int adminNum = cardData.getInt("AdminNum", 0);
-					byte[] userNumByte = ByteBuffer.allocate(4).putInt(userNum).array();
-					System.arraycopy(userNumByte, 2, mbuffer, dex, 2);
-					dex += 2;
-					mbuffer[dex++] = (byte) adminNum;
-					
-					while (dex < 17) {
-						mbuffer[dex++] = 0x01;
-					}
-					mSerialPortUtil.sendBuffer(mbuffer);
+					byte[] mBuffer;
+					mBuffer = Hex.byteMerger(cmdCode, byteId);//5
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultPassword);//11
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultMode);//12
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.invalidSum);//15
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultFrame);//16
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultCRC);//17
+					mSerialPortUtil.sendBuffer(mBuffer);
 				}else {
 					mShowToastThread = new ShowToastThread(this,"无效的用户号");
 					mShowToastThread.start();
@@ -233,26 +221,15 @@ public class AdminManageUserActivity extends Activity implements
 					for (int i = 0; i < readId.length; i++) {
 						readId[i] = reciveBuf[ProtocolManager.RETURN_STATUS_INDEX+1+i];
 					}
-					byte[] bytepassword = {1,2,3,4,5,6};
-					byte[] mbuffer = new byte[17];
+					byte[] mBuffer;
+					mBuffer = Hex.byteMerger(cmdCode, readId);//5
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultPassword);//11
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultMode);//12
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.invalidSum);//15
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultFrame);//16
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultCRC);//17
 					
-					mbuffer[0] = cmdCode;
-					System.arraycopy(readId, 0, mbuffer, 1, readId.length);
-					System.arraycopy(bytepassword, 0, mbuffer, 5, bytepassword.length);
-					int dex = readId.length + bytepassword.length + 1;
-					mbuffer[dex++] = 0x01;
-					SharedPreferences cardData = getSharedPreferences("CardData", MODE_PRIVATE);
-					int userNum = cardData.getInt("UserNum", 0);
-					int adminNum = cardData.getInt("AdminNum", 0);
-					byte[] userNumByte = ByteBuffer.allocate(4).putInt(userNum).array();
-					System.arraycopy(userNumByte, 2, mbuffer, dex, 2);
-					dex += 2;
-					mbuffer[dex++] = (byte) adminNum;
-					while (dex < 17) {
-						mbuffer[dex] = 0x01;
-						dex ++;
-					}
-					mSerialPortUtil.sendBuffer(mbuffer);
+					mSerialPortUtil.sendBuffer(mBuffer);
 				}
 			} else if (ProtocolManager.ReturnStatus.FAIL == reciveBuf[ProtocolManager.RETURN_STATUS_INDEX]) {
 				mShowToastThread = new ShowToastThread(this, "读取卡号失败");
@@ -263,12 +240,6 @@ public class AdminManageUserActivity extends Activity implements
 			if (ProtocolManager.ReturnStatus.SUCCESS == reciveBuf[ProtocolManager.RETURN_STATUS_INDEX]){
 				mShowToastThread = new ShowToastThread(this, "添加用户成功");
 				mShowToastThread.start();
-				byte[] userNumbyte = {reciveBuf[ProtocolManager.RETURN_STATUS_INDEX+1],reciveBuf[ProtocolManager.RETURN_STATUS_INDEX+2]};
-				byte adminNumByte = reciveBuf[ProtocolManager.RETURN_STATUS_INDEX+3];
-				SharedPreferences.Editor editor = getSharedPreferences("CardData", MODE_PRIVATE).edit();
-				editor.putInt("UserNum", byteToInt(userNumbyte));			
-				editor.putInt("AdminNum", (int) (adminNumByte & 0xff));
-				editor.apply();
 				finish();
 			}else {
 				mShowToastThread = new ShowToastThread(this, "添加用户失败");
@@ -279,12 +250,6 @@ public class AdminManageUserActivity extends Activity implements
 			if (ProtocolManager.ReturnStatus.SUCCESS == reciveBuf[ProtocolManager.RETURN_STATUS_INDEX]){
 				mShowToastThread = new ShowToastThread(this, "删除用户成功");
 				mShowToastThread.start();
-				byte[] userNumbyte = {reciveBuf[ProtocolManager.RETURN_STATUS_INDEX+1],reciveBuf[ProtocolManager.RETURN_STATUS_INDEX+2]};
-				byte adminNumByte = reciveBuf[ProtocolManager.RETURN_STATUS_INDEX+3];
-				SharedPreferences.Editor editor = getSharedPreferences("CardData", MODE_PRIVATE).edit();
-				editor.putInt("UserNum", byteToInt(userNumbyte));			
-				editor.putInt("AdminNum", (int) (adminNumByte & 0xff));
-				editor.apply();
 				finish();
 			}else {
 				mShowToastThread = new ShowToastThread(this, "删除用户失败");
@@ -294,14 +259,6 @@ public class AdminManageUserActivity extends Activity implements
 		default:
 			break;
 		}
-	}
-
-	private int byteToInt(byte[] userNumbyte) {
-		int sum = 0;
-		for (byte b:userNumbyte) {
-			sum = (sum << 8) | (b & 0xff);
-		}
-		return sum;
 	}
 
 	private boolean isDialogExist() {
