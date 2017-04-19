@@ -38,7 +38,7 @@ public class AdminSettingActivity extends Activity implements OnDataReceiveListe
 	private Timer mOffTime;
 	private Dialog mDialog;
 	private Builder mDialogBuilder;
-	private boolean isVerify = true;
+	private boolean isVerify = false;
 	
 	private void findViews() {
 		

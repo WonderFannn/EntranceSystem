@@ -269,7 +269,7 @@ public class AdminManageUserActivity extends Activity implements
 				editor.putInt("UserNum", byteToInt(userNumbyte));			
 				editor.putInt("AdminNum", (int) (adminNumByte & 0xff));
 				editor.apply();
-				
+				finish();
 			}else {
 				mShowToastThread = new ShowToastThread(this, "添加用户失败");
 				mShowToastThread.start();
@@ -285,6 +285,7 @@ public class AdminManageUserActivity extends Activity implements
 				editor.putInt("UserNum", byteToInt(userNumbyte));			
 				editor.putInt("AdminNum", (int) (adminNumByte & 0xff));
 				editor.apply();
+				finish();
 			}else {
 				mShowToastThread = new ShowToastThread(this, "删除用户失败");
 				mShowToastThread.start();
