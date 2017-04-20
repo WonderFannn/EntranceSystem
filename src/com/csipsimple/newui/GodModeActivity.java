@@ -6,6 +6,8 @@ import com.csipsimple.serialport.util.CRC8;
 import com.csipsimple.serialport.util.Hex;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -47,7 +49,8 @@ public class GodModeActivity extends Activity implements OnClickListener, OnData
 	private Button ButtonDefault4;
 	private Button ButtonReturn;
 
-	
+	private AlertDialog.Builder builder;
+	private AlertDialog dialog;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -119,6 +122,7 @@ public class GodModeActivity extends Activity implements OnClickListener, OnData
 	public void onClick(View v) {
 		if ( v == buttonCmdCode ) {
 			// Handle clicks for buttonCmdCode
+			showSimpleListDialog(v);
 		} else if ( v == button4F ) {
 			editTextSendBuffer.append(" FF FF FF FF");
 		} else if ( v == button6F ) {
@@ -186,5 +190,26 @@ public class GodModeActivity extends Activity implements OnClickListener, OnData
 			}
 		});
 	}
+	
+	private void showSimpleListDialog(View view) {
+        builder=new AlertDialog.Builder(this);
+        builder.setTitle("选择命令");
+
+        /**
+         * 设置内容区域为简单列表项
+         */
+        final String[] Items={"F0添加管理员","F1删除管理员","F2添加用户","F3删除用户","F4验证管理员","F5读取用户卡号",
+        		"F6验证用户","F7开门","F8设置回锁时间","F9修改密码模式","FA清空用户","FB清空管理员","FD密码开门"};
+        builder.setItems(Items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                editTextSendBuffer.append(" "+Items[i].substring(0, 2));
+                dialog.dismiss();
+            }
+        });
+        builder.setCancelable(true);
+        dialog=builder.create();
+        dialog.show();
+    }
 
 }
