@@ -51,6 +51,8 @@ public class GodModeActivity extends Activity implements OnClickListener, OnData
 
 	private AlertDialog.Builder builder;
 	private AlertDialog dialog;
+	
+	private int receiveNum = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -186,7 +188,7 @@ public class GodModeActivity extends Activity implements OnClickListener, OnData
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				textViews[(textViewsIndex++)%3].setText(Hex.encodeHexStr(reciveBuf,false));
+				textViews[(textViewsIndex++)%3].setText((receiveNum++) +"." +Hex.encodeHexStr(reciveBuf,false));
 			}
 		});
 	}
