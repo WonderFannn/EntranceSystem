@@ -7,6 +7,7 @@ import com.csipsimple.serialport.util.Hex;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -51,9 +52,9 @@ public class GodModeActivity extends Activity implements OnClickListener, OnData
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_godmode);
+		findViews();
 		mSerialPortUtil = SerialPortUtil.getInstance();
 		mSerialPortUtil.setOnDataReceiveListener(this);
-		findViews();
 	}
 	/**
 	 * Find the Views in the layout<br />
@@ -128,7 +129,10 @@ public class GodModeActivity extends Activity implements OnClickListener, OnData
 			editTextSendBuffer.append(" FF FF FF");
 		} else if ( v == buttonSend ) {
 			String string = editTextSendBuffer.getText().toString();
-			string.replaceAll(" ", "");
+			
+			string = string.replaceAll(" ","");
+			
+			Log.d("wangfan", string);
 			if (string.length()%2 == 0) {
 				byte[] mBuffer = Hex.decodeHex(string.toCharArray());
 				mSerialPortUtil.sendBuffer(mBuffer);

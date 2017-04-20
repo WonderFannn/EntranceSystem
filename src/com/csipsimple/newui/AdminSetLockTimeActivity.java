@@ -71,7 +71,7 @@ public class AdminSetLockTimeActivity extends Activity implements
 				byte[] mBuffer = {(byte) 0xF8,					//命令字
 						//验证模式卡号密码用ff填充
 						(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,
-						(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,
+						(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,
 						(byte) 0x01,//模式
 						(byte) 0xFF,(byte) 0xFF,(byte) 0xFF,//用户数,管理员数
 						(byte) 0x00,
