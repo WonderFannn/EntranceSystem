@@ -123,7 +123,6 @@ public class GodModeActivity extends Activity implements OnClickListener, OnData
 	@Override
 	public void onClick(View v) {
 		if ( v == buttonCmdCode ) {
-			// Handle clicks for buttonCmdCode
 			showSimpleListDialog(v);
 		} else if ( v == button4F ) {
 			editTextSendBuffer.append(" FF FF FF FF");
@@ -135,10 +134,7 @@ public class GodModeActivity extends Activity implements OnClickListener, OnData
 			editTextSendBuffer.append(" FF FF FF");
 		} else if ( v == buttonSend ) {
 			String string = editTextSendBuffer.getText().toString();
-			
 			string = string.replaceAll(" ","");
-			
-			Log.d("wangfan", string);
 			if (string.length()%2 == 0) {
 				byte[] mBuffer = Hex.decodeHex(string.toCharArray());
 				mSerialPortUtil.sendBuffer(mBuffer);

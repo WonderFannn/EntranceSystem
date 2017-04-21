@@ -156,7 +156,7 @@ public class SerialPortUtil {
                     }
                     // 一个完整包即产生  ,传给onDataReceive处理
                     onDataReceiveListener.onDataReceive(buffer, cursor, factPackLen);
-                    Log.d(TAG,"ReceiveBuffer: "+Hex.encodeHexStr(buffer)+ "size : "+currentLength);
+                    Log.d(TAG,"ReceiveBuffer: "+Hex.encodeHexStr(buffer).substring(0,currentLength)+ "size : "+currentLength);
                     currentLength -= factPackLen;
                     cursor += factPackLen;
                 }
