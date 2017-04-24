@@ -5,7 +5,7 @@ public class ProtocolManager {
 	
 	public static final int CMDCODE_INDEX = 5;
 	public static final int RETURN_STATUS_INDEX = 6;
-	public static final int USERMODE_INDEX = 17;
+	public static final int USERMODE_INDEX = 16;
 	//校验码用于检验包头包尾
 	public static class CheckCode{
 		public static final byte PACK_HEAD_1 = (byte) 0x55;

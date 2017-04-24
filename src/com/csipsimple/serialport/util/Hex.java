@@ -1,5 +1,7 @@
 package com.csipsimple.serialport.util;
 
+import java.io.IOException;
+
 
 public class Hex {
 
@@ -158,12 +160,33 @@ public class Hex {
 	
 	public static void main(String[] args) {
 		byte[] bytes;
-		bytes = decodeHex(" 01 0 203 04  05 f6".replaceAll(" ","").toCharArray());
-		System.out.println("bytes length:"+bytes.length);
-		String string = encodeHexStr(bytes,false);
-		
-		System.out.println("bytes :"+ string);
-		System.out.println("string :"+ " 01 0 203 04  05 f6".replaceAll(" ",""));
+		byte[] byte_1 = new byte[100];
+		byte[] byte_2 = new byte[1000];
+		long then = System.currentTimeMillis();
+		for (int i = 0; i < 1000000; i++) {
+			bytes = byteMerger(byte_1, byte_2);
+		}
+		long now = System.currentTimeMillis();
+		System.out.println("time1 :"+ (now - then));
+		long then1 = System.currentTimeMillis();
+		for (int i = 0; i < 1000000; i++) {
+			bytes = byteMergerByFor(byte_1, byte_2);
+		}
+		long now1 = System.currentTimeMillis();
+		System.out.println("time2 :"+ (now1 - then1));
+
+	}
+	
+	public static byte[] byteMergerByFor(byte[] byte_1, byte[] byte_2) {
+		byte[] byte_3 = new byte[byte_1.length+byte_2.length];
+		for (int i = 0; i < byte_3.length; i++) {
+			if(i<byte_1.length){
+				byte_3[i] = byte_1[i];
+			}else {
+				byte_3[i] = byte_2[i - byte_1.length];
+			}
+		}
+		return byte_3;
 	}
 	
 	public static byte[] byteMerger(byte[] byte_1, byte[] byte_2){  

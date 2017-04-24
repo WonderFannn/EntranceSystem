@@ -608,6 +608,7 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 		case ProtocolManager.CmdCode.UPLOAD_CARD:
 			if (ProtocolManager.UserMode.CARDANDPASSWORD == reciveBuf[ProtocolManager.USERMODE_INDEX]){
 				//读取密码进入下个界面
+				Log.d("UserMode", reciveBuf[ProtocolManager.USERMODE_INDEX]+"");
 				byte[] password = new byte[6];
 				System.arraycopy(reciveBuf, ProtocolManager.CMDCODE_INDEX + 5, password, 0, password.length);
 				Intent passwordIntent = new Intent(this,PasswordOpenDoorActivity.class);
