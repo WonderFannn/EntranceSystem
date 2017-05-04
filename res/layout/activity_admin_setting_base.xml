@@ -106,6 +106,7 @@
                android:background="@drawable/bg_entranceactivity_input"
                android:gravity="center"
                android:textColor="#1E90FF"
+               android:text=""
                android:textSize="40sp" />
 
            <TextView

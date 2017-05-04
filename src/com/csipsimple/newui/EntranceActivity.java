@@ -164,28 +164,11 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
     	
     	switch (callNuberIndex) {
 		case 0:
-			if (9>=i && 0<=i) {
-				callNumber[callNuberIndex] = String.valueOf(i).charAt(0);
-				callNuberIndex ++;
-			}
-			break;
 		case 1:
-			if (9>=i && 0<=i) {
-				callNumber[callNuberIndex] = String.valueOf(i).charAt(0);
-				callNuberIndex ++;
-			}
-			break;
 		case 2:
-			if (9>=i && 0<=i) {
-				callNumber[callNuberIndex] = String.valueOf(i).charAt(0);
-				callNuberIndex ++;
-			}
-			break;
 		case 3:
-			if (9>=i && 0<=i) {
-				callNumber[callNuberIndex] = String.valueOf(i).charAt(0);
-				callNuberIndex ++;
-			}
+			callNumber[callNuberIndex] = String.valueOf(i).charAt(0);
+			callNuberIndex ++;
 			break;
 
 		default:

@@ -192,6 +192,12 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
         </activity> 
         
+          <activity
+            android:name="com.csipsimple.newui.AdminManagePasswordUserActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
+        </activity> 
+        
            <activity
             android:name="com.csipsimple.newui.AdminSetLockTimeActivity"
             android:screenOrientation="landscape"

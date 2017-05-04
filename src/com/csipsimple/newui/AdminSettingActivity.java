@@ -43,7 +43,7 @@ public class AdminSettingActivity extends Activity implements OnDataReceiveListe
 	private void findViews() {
 		
 		tvMessage = (TextView) findViewById(R.id.tv_message);
-		tvMessage.setText("按数字键选择功能,#键返回\n1.添加用户.\n2.删除用户\n3.设置回锁时间\n");
+		tvMessage.setText("按数字键选择功能,#键返回\n1.添加用户.\n2.删除用户\n3.添加密码用户\n4.删除密码用户\n5.设置回锁时间\n");
 	}
 
 	@Override
@@ -140,8 +140,20 @@ public class AdminSettingActivity extends Activity implements OnDataReceiveListe
 			break;
 		case 10:
 			
-			Intent intent3 = new Intent(this,AdminSetLockTimeActivity.class);
+			Intent intent3 = new Intent(this,AdminManagePasswordUserActivity.class);
+			intent3.putExtra("cmdCode", ProtocolManager.CmdCode.ADD_USER);
 			startActivity(intent3);
+			break;
+		case 11:
+			
+			Intent intent4 = new Intent(this,AdminManagePasswordUserActivity.class);
+			intent4.putExtra("cmdCode", ProtocolManager.CmdCode.DELETE_USER);
+			startActivity(intent4);
+			break;
+		case 12:
+			
+			Intent intent5 = new Intent(this,AdminSetLockTimeActivity.class);
+			startActivity(intent5);
 			break;
 		case 18:
 			finish();
