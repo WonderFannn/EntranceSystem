@@ -42,6 +42,9 @@ public class SerialPortUtil {
 
     public void setOnDataReceiveListener(
             OnDataReceiveListener dataReceiveListener) {
+    	mReadThread = new ReadThread();
+    	isStop = false;
+    	mReadThread.start();
         onDataReceiveListener = dataReceiveListener;
     }
 
@@ -66,9 +69,6 @@ public class SerialPortUtil {
             mOutputStream = mSerialPort.getOutputStream();
             mInputStream = mSerialPort.getInputStream();
 
-            mReadThread = new ReadThread();
-            isStop = false;
-            mReadThread.start();
         } catch (Exception e) {
             e.printStackTrace();
         }

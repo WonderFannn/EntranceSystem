@@ -123,7 +123,7 @@ public class VideoCaptureAndroid implements PreviewCallback, Callback {
     }
 
     public int StartCapture(int width, int height, int frameRate) {
-    	android.os.Debug.waitForDebugger();
+//    	android.os.Debug.waitForDebugger();
         Log.d(TAG, "StartCapture width " + width +
                 " height " + height +" frame rate " + frameRate);
         // Get the local preview SurfaceHolder from the static render class

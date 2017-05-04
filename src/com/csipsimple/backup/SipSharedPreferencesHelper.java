@@ -116,7 +116,7 @@ public class SipSharedPreferencesHelper implements BackupHelper {
      */
     @Override
     public void restoreEntity(BackupDataInputStream data) {
-        android.os.Debug.waitForDebugger();
+//        android.os.Debug.waitForDebugger();
         if (SETTINGS_BACKUP_KEY.equalsIgnoreCase(data.getKey())) {
             try {
                 String settingsStr = readData(data);

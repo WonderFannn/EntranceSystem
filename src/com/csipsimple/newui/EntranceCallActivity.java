@@ -131,13 +131,8 @@ public class EntranceCallActivity extends Activity implements
 			Log.d(THIS_FILE, "Create Local Renderer");
 			cameraPreview = ViERenderer.CreateLocalRenderer(this);
 			renderView = ViERenderer.CreateRenderer(this, true);
-			RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(1, 1);
-			renderView.setVisibility(View.GONE);
-			cameraPreview.setVisibility(View.GONE);
-			renderView.setLayoutParams(lp);
-			cameraPreview.setLayoutParams(lp);
-			mainFrame.addView(renderView, 0);
-			mainFrame.addView(cameraPreview, 0);
+			mainFrame.addView(renderView,0,new RelativeLayout.LayoutParams(1, 1));
+			mainFrame.addView(cameraPreview, 1, 1);
 		} else {
 			Log.d(THIS_FILE, "NO NEED TO Create Local Renderer");
 		}
@@ -218,6 +213,8 @@ public class EntranceCallActivity extends Activity implements
 					pivCallStatus.setMovieResource(	R.drawable.ic_entrancecallactivity_oncall, true);
 					tvCallStatus.setText("正在通话中...");
 					onTrigger(START_VIDEO, mainCallInfo);
+//					onTrigger(TAKE_CALL, mainCallInfo);
+					
 					onDisplayVideo(true);
 					quitTimer.cancel();
 					quitTimer.purge();
@@ -482,8 +479,16 @@ public class EntranceCallActivity extends Activity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == 18) {
 			onTrigger(TERMINATE_CALL, getActiveCallInfo());
+			if (service != null) {
+				try {
+					service.hangup(getActiveCallInfo().getCallId(), 0);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
-		return super.onKeyDown(keyCode, event);
+		return true;
 	}
 
 
