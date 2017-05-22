@@ -130,8 +130,13 @@
        
 
        <activity
+            android:name="com.csipsimple.newui.ShowCameraActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
+        </activity> 
+       <activity
             android:name="com.csipsimple.newui.EntranceActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

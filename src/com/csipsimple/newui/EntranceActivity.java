@@ -1,7 +1,6 @@
 package com.csipsimple.newui;
 
 import android.app.Activity;
-import android.app.Application;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
@@ -10,78 +9,64 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.database.CharArrayBuffer;
-import android.database.Cursor;
+import android.hardware.Camera;
+import android.hardware.Camera.AutoFocusCallback;
+import android.hardware.Camera.PreviewCallback;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.Build;
 import android_serialport_api.SerialPortUtil;
 import android_serialport_api.SerialPortUtil.OnDataReceiveListener;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.http.util.EncodingUtils;
+
+//import mobile.ReadFace.YMFaceTrack;
+
 
 import com.csipsimple.R;
 import com.csipsimple.api.ISipService;
 import com.csipsimple.api.SipCallSession;
-import com.csipsimple.api.SipConfigManager;
 import com.csipsimple.api.SipManager;
 import com.csipsimple.api.SipProfile;
-import com.csipsimple.api.SipUri.ParsedSipContactInfos;
 import com.csipsimple.db.DBProvider;
 import com.csipsimple.models.Filter;
 import com.csipsimple.newui.view.ShowToastThread;
-import com.csipsimple.pjsip.PjSipService;
 import com.csipsimple.serialport.protocol.ProtocolManager;
 import com.csipsimple.serialport.util.CRC8;
 import com.csipsimple.service.SipService;
-import com.csipsimple.ui.prefs.AudioTester;
-import com.csipsimple.ui.prefs.cupcake.MainPrefs;
-import com.csipsimple.ui.prefs.cupcake.PrefsLoaderActivity;
-import com.csipsimple.utils.CallHandlerPlugin;
-import com.csipsimple.utils.CustomDistribution;
+import com.csipsimple.utils.CameraManager;
 import com.csipsimple.utils.Log;
-import com.csipsimple.utils.PreferencesProviderWrapper;
 import com.csipsimple.utils.PreferencesWrapper;
-import com.csipsimple.utils.CallHandlerPlugin.OnLoadListener;
+import com.csipsimple.utils.CameraManager.PicCallback;
 import com.csipsimple.wizards.WizardIface;
 import com.csipsimple.wizards.WizardUtils;
 import com.csipsimple.wizards.WizardUtils.WizardInfo;
 
-public class EntranceActivity extends Activity implements OnDataReceiveListener {
+public class EntranceActivity extends Activity implements OnDataReceiveListener, PreviewCallback {
 
 	private static final String THIS_FILE = "EntranceActivity";
-	private Boolean isDigit = null;
-	private PreferencesWrapper prefsWrapper;
 	
-	private PreferencesProviderWrapper prefProviderWrapper;
 	private WizardIface wizard = null;
 	protected SipProfile account = null;
-	private Context context;
 
 	private ISipService service;
 	private ServiceConnection connection = new ServiceConnection() {
@@ -108,6 +93,20 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 	private SerialPortUtil mSerialPortUtil;
 	private ShowToastThread mShowToastThread;
 
+	private CameraManager frontCameraManager;
+	private ViewGroup mainFrame;
+	private SurfaceView cameraPreview;
+    private SurfaceHolder frontHolder;
+    private Camera mFrontCamera;    
+    private AutoFocusCallback mAutoFocus = new AutoFocusCallback() {
+		@Override
+		public void onAutoFocus(boolean success, Camera camera) {
+			if (success) {
+				mFrontCamera.takePicture(null, null, frontCameraManager.new PicCallback(mFrontCamera));
+			}
+		}
+	};
+    
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
@@ -256,8 +255,26 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 		
 		mSerialPortUtil = SerialPortUtil.getInstance();
 		mSerialPortUtil.setOnDataReceiveListener(this);
-		
-		
+//		
+//		YMFaceTrack faceTrack = new YMFaceTrack();
+//		faceTrack.initTrack(this,YMFaceTrack.FACE_0,YMFaceTrack.RESIZE_WIDTH_640);
+		mainFrame = (ViewGroup) findViewById(R.id.mainFrame);
+		attachVideoPreview();
+//		takeFrontPhoto();
+	}
+
+//	
+	private void attachVideoPreview() {
+		// Video stuff
+		if (cameraPreview == null) {
+			Log.d(THIS_FILE, "Create Local Renderer");
+			cameraPreview = new SurfaceView(this);
+			mainFrame.addView(cameraPreview, 1, 1);
+			frontHolder = cameraPreview.getHolder();
+			frontCameraManager = new CameraManager(this,mFrontCamera, frontHolder);
+		} else {
+			Log.d(THIS_FILE, "NO NEED TO Create Local Renderer");
+		}
 	}
 
 	@Override
@@ -265,11 +282,33 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 
 		return true;
 	}
-
 	@Override
 	protected void onResume() {
 		super.onResume();
 		onForeground = true;
+		// 这里得开线程进行拍照，因为Activity还未完全显示的时候，是无法进行拍照的，SurfaceView必须先显示
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if (mFrontCamera == null) {
+					frontCameraManager.openCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
+					try {
+						// 因为开启摄像头需要时间，这里让线程睡2秒
+						Thread.sleep(2000);
+						mFrontCamera = frontCameraManager.getCamera();
+					} catch (InterruptedException e) {}
+				}
+				while (mFrontCamera != null) {
+					try {
+						Thread.sleep(5000);
+						mFrontCamera.autoFocus(mAutoFocus);
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					
+				}
+			}
+		}).start();
 //		PjSipService.resetCodecs();
 //		Intent intent = new Intent(SipManager.ACTION_SIP_REQUEST_RESTART);
 //		sendBroadcast(intent);
@@ -281,12 +320,22 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 		// startService(startIntent);
 
 	}
-	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		frontCameraManager.releaseCamera();
+		mFrontCamera = null;
+	}
 	@Override
 	protected void onRestart() {
-		// TODO Auto-generated method stub
 		super.onRestart();
 		mSerialPortUtil.setOnDataReceiveListener(this);
+	}
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
 	}
 	@Override
 	protected void onDestroy() {
@@ -603,6 +652,12 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void onPreviewFrame(byte[] data, Camera camera) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

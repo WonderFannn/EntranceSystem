@@ -47,11 +47,9 @@ public class EntranceCallActivity extends Activity implements
 	
 	private SurfaceView cameraPreview;
 	private SurfaceView renderView;
-	private CallProximityManager proximityManager;
 
 	private Object callMutex = new Object();
 	private SipCallSession[] callsInfo = null;
-	private MediaState lastMediaState;
 
 	// Screen wake lock for incoming call
 	private WakeLock wakeLock;

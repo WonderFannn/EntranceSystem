@@ -7,7 +7,6 @@ import com.csipsimple.serialport.protocol.ProtocolManager;
 import com.csipsimple.serialport.util.CRC8;
 import com.csipsimple.serialport.util.Hex;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

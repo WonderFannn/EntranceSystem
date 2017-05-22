@@ -173,8 +173,11 @@ public class VideoCaptureDeviceInfoAndroid {
             }
         }
         
+        newDevice.bestCapability.width = 90;
+        newDevice.bestCapability.height = 72;
+        newDevice.bestCapability.maxFPS = 15;
         Log.d(TAG, "Best capability found " + newDevice.bestCapability.width + " x "
-                + newDevice.bestCapability.height);
+                + newDevice.bestCapability.height +"bestBandwidth:"+bestBandwidth);
     }
 
     // Function that make sure device specific capabilities are
