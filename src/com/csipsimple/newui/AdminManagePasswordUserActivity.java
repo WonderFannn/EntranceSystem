@@ -147,8 +147,11 @@ public class AdminManagePasswordUserActivity extends Activity implements OnDataR
 				mShowToastThread = new ShowToastThread(this, "添加密码用户成功");
 				mShowToastThread.start();
 				finish();
-			}else {
+			}else if (ProtocolManager.ReturnStatus.FAIL == reciveBuf[ProtocolManager.RETURN_STATUS_INDEX]) {
 				mShowToastThread = new ShowToastThread(this, "添加密码用户失败");
+				mShowToastThread.start();
+			}else {
+				mShowToastThread = new ShowToastThread(this, "已覆盖存在的用户");
 				mShowToastThread.start();
 			}
 			break;
