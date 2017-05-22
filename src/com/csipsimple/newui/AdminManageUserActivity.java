@@ -203,8 +203,7 @@ public class AdminManageUserActivity extends Activity implements
 		byte[] reciveBuf = new byte[packlen];
 		System.arraycopy(buffer, index, reciveBuf, 0, packlen);
 
-		if (reciveBuf[reciveBuf.length - 1] != CRC8.calcCrc8(reciveBuf, 0,
-				reciveBuf.length - 1)) {
+		if (reciveBuf[reciveBuf.length - 1] != CRC8.calcCrc8(reciveBuf, 0, reciveBuf.length - 1)) {
 			mShowToastThread = new ShowToastThread(this, "CRC校验未通过");
 			mShowToastThread.start();
 			return;

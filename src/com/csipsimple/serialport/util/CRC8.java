@@ -55,36 +55,24 @@ public class CRC8 {
         }  
         return ret;  
     }  
-  
-    public static byte getcrc8(byte[] data, int len) {
-		byte crc = 0;
-		int index = 0;
-		while (len-- > 0) {
-			crc ^= data[index++];
-			for (int i = 0; i < 8; i++) {
-				if ((crc & 0x01) > 0) {
-					crc = (byte) ((crc >> 1) ^ 0x8C);
-				}else {
-					crc >>= 1;
-				}
-			}
-			
-		}
-    	
-    	return crc;
-		
-	}
+
     // ≤‚ ‘  
     public static void main(String[] args) {
-    	byte[] abb = new byte[] { 0x55, (byte) 0xAA, 0x55, 0x00, 0x11, 
-        		(byte) 0xF0, (byte) 0xE5,0x77,(byte) 0x9F,(byte) 0x9A,
-        		0x01,0x02,0x03,0x04,0x05,0x06,
-        		0x02,0x07,(byte) 0xD0,0x0A,0x00,(byte) 0x00};
+    	byte[] abb = new byte[] { 0x55, (byte) 0xAA, 0x55, 
+    			0x00, 0x0F, 
+        		(byte) 0xFC, 
+        		(byte) 0x9B,(byte) 0xB8,(byte) 0x33,(byte) 0xC5,
+        		0x01,0x02,0x03,0x06,0x09,0x00,
+        		0x03,0x10,(byte) 0x20,(byte) 0xF4};
+    	
+    	if (abb[abb.length-1] != CRC8.calcCrc8(abb,0,abb.length-1)) {
+    		System.out.println("≈–∂œ≤ªœ‡µ»");
+    	}
     	
         byte crc = CRC8.calcCrc8(abb,0,abb.length-1);
         System.out.println("" + abb.length);  
         System.out.println("" + abb[abb.length-1]);
-        System.out.println("" + Integer.toHexString(0x00ff & crc));  
-        System.out.println("" + Integer.toHexString(0x00ff & getcrc8(abb, 21)));  
+        System.out.println("" + Integer.toHexString(0x00ff & crc));
+        
     }  
 }
