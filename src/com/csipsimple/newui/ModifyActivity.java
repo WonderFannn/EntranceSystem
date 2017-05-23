@@ -63,7 +63,6 @@ public class ModifyActivity extends Activity implements OnDataReceiveListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_modify);
 		mSerialPortUtil = SerialPortUtil.getInstance();
-		mSerialPortUtil.setOnDataReceiveListener(this);
 		byte[] mBuffer = {
 				ProtocolManager.CmdCode.VERIFY_USER,// 命令字
 				// 验证模式卡号密码用ff填充
@@ -78,7 +77,18 @@ public class ModifyActivity extends Activity implements OnDataReceiveListener {
 			initDialog("用户");
 		}
 	}
-
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		mSerialPortUtil.setOnDataReceiveListener(this);
+	}
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		mSerialPortUtil.closeReadThread();
+	}
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

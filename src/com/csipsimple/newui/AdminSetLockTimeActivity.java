@@ -39,11 +39,20 @@ public class AdminSetLockTimeActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_admin_setting_base);
 		findViews();
+	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
 		mSerialPortUtil = SerialPortUtil.getInstance();
 		mSerialPortUtil.setOnDataReceiveListener(this);
-
 	}
-
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		mSerialPortUtil.closeReadThread();
+	}
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

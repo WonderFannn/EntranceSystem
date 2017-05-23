@@ -253,11 +253,6 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 				placeVideoCall();
 			}
 		});
-		
-		mSerialPortUtil = SerialPortUtil.getInstance();
-		mSerialPortUtil.setOnDataReceiveListener(this);
-		
-		
 	}
 
 	@Override
@@ -269,6 +264,8 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		mSerialPortUtil = SerialPortUtil.getInstance();
+		mSerialPortUtil.setOnDataReceiveListener(this);
 		onForeground = true;
 //		PjSipService.resetCodecs();
 //		Intent intent = new Intent(SipManager.ACTION_SIP_REQUEST_RESTART);
@@ -281,13 +278,13 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 		// startService(startIntent);
 
 	}
-	
 	@Override
-	protected void onRestart() {
+	protected void onStop() {
 		// TODO Auto-generated method stub
-		super.onRestart();
-		mSerialPortUtil.setOnDataReceiveListener(this);
+		super.onStop();
+		mSerialPortUtil.closeReadThread();
 	}
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

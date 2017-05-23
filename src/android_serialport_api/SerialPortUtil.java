@@ -104,7 +104,8 @@ public class SerialPortUtil {
   
         @Override  
         public void run() {
-            super.run();
+//            super.run();
+            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_FOREGROUND);
             // 定义一个包的最大长度  
             int maxLength = 128;
             byte[] buffer = new byte[maxLength];
@@ -117,6 +118,7 @@ public class SerialPortUtil {
             
             while (!isInterrupted()) {
                 try {
+                	sleep(100);
                     available = mInputStream.available();
                     if (available > 0) {
                         // 防止超出数组最大长度导致溢出
@@ -125,6 +127,7 @@ public class SerialPortUtil {
                         }
                         mInputStream.read(buffer, currentLength, available);
                         currentLength += available;
+                        Log.d(TAG,"FirstRead    : "+Hex.encodeHexStr(buffer).substring(0,currentLength*2)+ "size : "+currentLength);
                     }
 
                 }
@@ -143,6 +146,7 @@ public class SerialPortUtil {
                         ++cursor;
                         continue;
                     }
+                    // 根据第4,5位计算包内容长
                     int contentLenght = parseLen(buffer, cursor, headerLength);
                     // 如果内容包的长度大于最大内容长度或者小于等于0，则说明这个包有问题，丢弃 
                     if (contentLenght <= 0 || contentLenght > maxLength - 5) {
@@ -163,7 +167,7 @@ public class SerialPortUtil {
                 // 残留字节移到缓冲区首  
                 if (currentLength > 0 && cursor > 0) {  
                     System.arraycopy(buffer, cursor, buffer, 0, currentLength);  
-                    currentLength = 0;
+//                    currentLength = 0;
                 }
             }
         }
@@ -175,6 +179,13 @@ public class SerialPortUtil {
         byte b = buffer[index + 4];
         int rlt = ((a << 8) | b);
         return rlt;  
+    }
+    
+    
+    public void closeReadThread() {
+    	if (mReadThread != null) {
+    		mReadThread.interrupt();
+    	}
     }
     
     /** 

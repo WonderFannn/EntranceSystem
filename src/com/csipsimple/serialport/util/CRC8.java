@@ -64,14 +64,18 @@ public class CRC8 {
         		(byte) 0x9B,(byte) 0xB8,(byte) 0x33,(byte) 0xC5,
         		0x01,0x02,0x03,0x06,0x09,0x00,
         		0x03,0x10,(byte) 0x20,(byte) 0xF4};
+    	byte[] abb1 = new byte[] { 0x55, (byte) 0xAA, 0x55, 
+    			0x00, 0x10, 
+    			(byte) 0xF6, 
+    			(byte) 0x00,(byte) 0x6B,(byte) 0x32,(byte) 0x65,(byte) 0xC5,
+    			0x01,0x02,0x03,0x04,0x05,0x06,
+    			0x01,(byte) 0x82,(byte) 0xAC,(byte) 0xDF};
     	
-    	if (abb[abb.length-1] != CRC8.calcCrc8(abb,0,abb.length-1)) {
+    	if (abb1[abb1.length-1] != CRC8.calcCrc8(abb1,0,abb1.length-1)) {
     		System.out.println("≈–∂œ≤ªœ‡µ»");
     	}
     	
-        byte crc = CRC8.calcCrc8(abb,0,abb.length-1);
-        System.out.println("" + abb.length);  
-        System.out.println("" + abb[abb.length-1]);
+        byte crc = CRC8.calcCrc8(abb1,0,abb1.length-1);
         System.out.println("" + Integer.toHexString(0x00ff & crc));
         
     }  

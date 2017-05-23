@@ -58,8 +58,21 @@ public class GodModeActivity extends Activity implements OnClickListener, OnData
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_godmode);
 		findViews();
+	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
 		mSerialPortUtil = SerialPortUtil.getInstance();
 		mSerialPortUtil.setOnDataReceiveListener(this);
+	}
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		mSerialPortUtil.closeReadThread();
 	}
 	/**
 	 * Find the Views in the layout<br />

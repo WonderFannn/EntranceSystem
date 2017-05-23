@@ -40,9 +40,6 @@ public class PasswordOpenDoorActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_modify_password);
 
-		mSerialPortUtil = SerialPortUtil.getInstance();
-		mSerialPortUtil.setOnDataReceiveListener(this);
-
 		Intent intent = getIntent();
 		verifyPassword = intent.getByteArrayExtra("password");
 		
@@ -53,7 +50,19 @@ public class PasswordOpenDoorActivity extends Activity implements
 		}
 
 	}
-
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		mSerialPortUtil = SerialPortUtil.getInstance();
+		mSerialPortUtil.setOnDataReceiveListener(this);
+	}
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		mSerialPortUtil.closeReadThread();
+	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 

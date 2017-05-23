@@ -71,9 +71,20 @@ public class AdminManageUserActivity extends Activity implements
 		Intent intent = getIntent();
 		cmdCode = intent.getByteExtra("cmdCode", ProtocolManager.CmdCode.ADD_USER);
 		findViews();
+
+	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
 		mSerialPortUtil = SerialPortUtil.getInstance();
 		mSerialPortUtil.setOnDataReceiveListener(this);
-
+	}
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		mSerialPortUtil.closeReadThread();
 	}
 
 	@Override

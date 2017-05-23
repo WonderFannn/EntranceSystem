@@ -36,7 +36,6 @@ public class ModifyModeActivity extends Activity implements
 		setContentView(R.layout.activity_showmessage);
 
 		mSerialPortUtil = SerialPortUtil.getInstance();
-		mSerialPortUtil.setOnDataReceiveListener(this);
 
 		Intent passwordIntent = getIntent();
 		userIDByte = passwordIntent.getByteArrayExtra("userIDByte");
@@ -44,7 +43,18 @@ public class ModifyModeActivity extends Activity implements
 		mode = passwordIntent.getIntExtra("mode", 0);
 
 	}
-
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		mSerialPortUtil.setOnDataReceiveListener(this);
+	}
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		mSerialPortUtil.closeReadThread();
+	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 

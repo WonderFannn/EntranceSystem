@@ -53,7 +53,6 @@ public class AdminSettingActivity extends Activity implements OnDataReceiveListe
 		
 		findViews();
 		mSerialPortUtil = SerialPortUtil.getInstance();
-		mSerialPortUtil.setOnDataReceiveListener(this);
 
 		//55AA550012F4FFFFFFFF FFFFFFFFFFFFFF07D00A0000
 		byte[] mBuffer = {(byte) 0xF4,//√¸¡Ó◊÷
@@ -68,7 +67,18 @@ public class AdminSettingActivity extends Activity implements OnDataReceiveListe
 			initDialog("π‹¿Ì‘±");
 		}
 	}
-	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		mSerialPortUtil.setOnDataReceiveListener(this);
+	}
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		mSerialPortUtil.closeReadThread();
+	}
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
