@@ -130,11 +130,13 @@ public class AdminSetLockTimeActivity extends Activity implements
 		switch (reciveBuf[ProtocolManager.CMDCODE_INDEX]) {
 		case ProtocolManager.CmdCode.SET_LOCK_TIME:
 			if (ProtocolManager.ReturnStatus.SUCCESS == reciveBuf[ProtocolManager.RETURN_STATUS_INDEX]){
-				mShowToastThread = new ShowToastThread(this, "设置回锁时间成功");
+				mShowToastThread = new ShowToastThread(this, "设置回锁时间"+lockTime+"s成功");
 				mShowToastThread.start();
+				finish();
 			}else {
 				mShowToastThread = new ShowToastThread(this, "设置回锁时间失败");
 				mShowToastThread.start();
+				
 			}
 			break;
 		

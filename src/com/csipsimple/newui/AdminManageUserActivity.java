@@ -255,6 +255,7 @@ public class AdminManageUserActivity extends Activity implements
 			}else {
 				mShowToastThread = new ShowToastThread(this, "已覆盖存在的用户");
 				mShowToastThread.start();
+				finish();
 			}
 			break;
 		case ProtocolManager.CmdCode.DELETE_USER:
