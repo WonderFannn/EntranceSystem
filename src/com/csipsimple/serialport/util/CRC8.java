@@ -77,6 +77,14 @@ public class CRC8 {
     	
         byte crc = CRC8.calcCrc8(abb1,0,abb1.length-1);
         System.out.println("" + Integer.toHexString(0x00ff & crc));
-        
+        int len = 65534;
+        byte a = (byte)(len>>8);
+        byte b = (byte)len;        
+        System.out.println("" + Integer.toHexString(a));
+        System.out.println("" + Integer.toHexString(b));
+        System.out.println("" + Integer.toHexString((byte) 0xff));
+        if (a == (byte)0xff) {
+        	System.out.println("" + b);
+		}
     }  
 }

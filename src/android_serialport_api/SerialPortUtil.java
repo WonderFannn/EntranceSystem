@@ -31,7 +31,6 @@ public class SerialPortUtil {
     private String path = "/dev/ttyS7";
     //²¨ÌØÂÊ
     private int baudrate = 115200;
-//    private int baudrate = 9600;
     private static SerialPortUtil portUtil;
     private OnDataReceiveListener onDataReceiveListener = null;
     private boolean isStop = false;
@@ -81,7 +80,7 @@ public class SerialPortUtil {
     	buffer[0] = (byte) 0x55;
     	buffer[1] = (byte) 0xAA;
     	buffer[2] = (byte) 0x55;
-    	buffer[3] = (byte) 0x00;
+    	buffer[3] = (byte) (bufferlength>>8);
     	buffer[4] = (byte) bufferlength;
     	System.arraycopy(mBuffer, 0, buffer, 5, bufferlength);
     	buffer[buffer.length-1] = CRC8.calcCrc8(buffer, 0, buffer.length-1);
