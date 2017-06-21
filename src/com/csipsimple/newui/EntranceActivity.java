@@ -58,6 +58,7 @@ import com.csipsimple.newui.view.ShowToastThread;
 import com.csipsimple.pjsip.PjSipService;
 import com.csipsimple.serialport.protocol.ProtocolManager;
 import com.csipsimple.serialport.util.CRC8;
+import com.csipsimple.serialport.util.LocalNameManager;
 import com.csipsimple.service.SipService;
 import com.csipsimple.ui.prefs.AudioTester;
 import com.csipsimple.ui.prefs.cupcake.MainPrefs;
@@ -104,6 +105,7 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 	private char callNumber[] = {' ',' ',' ',' '};
 	private int callNuberIndex = 0;
 	private TextView textViewCallButton;
+	private TextView tvLocalName;
 	
 	private SerialPortUtil mSerialPortUtil;
 	private ShowToastThread mShowToastThread;
@@ -232,7 +234,10 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_entrance);
+		LocalNameManager.writeFile();
 		Log.d("wangfan", THIS_FILE+" start");
+		tvLocalName = (TextView) findViewById(R.id.tv_localname);
+		tvLocalName.setText(LocalNameManager.readFile());
 		Intent serviceIntent = new Intent(SipManager.INTENT_SIP_SERVICE);
         // Optional, but here we bundle so just ensure we are using csipsimple package
         serviceIntent.setPackage(this.getPackageName());

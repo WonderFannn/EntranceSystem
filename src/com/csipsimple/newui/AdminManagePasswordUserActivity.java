@@ -6,6 +6,7 @@ import com.csipsimple.newui.view.ShowToastThread;
 import com.csipsimple.serialport.protocol.ProtocolManager;
 import com.csipsimple.serialport.util.CRC8;
 import com.csipsimple.serialport.util.Hex;
+import com.csipsimple.serialport.util.LocalNameManager;
 
 import android.R.integer;
 import android.app.Activity;
@@ -25,6 +26,7 @@ public class AdminManagePasswordUserActivity extends Activity implements OnDataR
 	
 	private TextView tvShowEditNum;
 	private TextView tvMessage;
+	private TextView tvLocalName;
 	
 	private String userIDAndPassword = "";
 	
@@ -33,6 +35,8 @@ public class AdminManagePasswordUserActivity extends Activity implements OnDataR
 	private void findViews() {
 		tvShowEditNum = (TextView) findViewById(R.id.tv_show_edit_num);
 		tvMessage = (TextView) findViewById(R.id.tv_message);
+		tvLocalName = (TextView) findViewById(R.id.tv_localname);
+		tvLocalName.setText(LocalNameManager.readFile());
 		String message = "";
 		switch (cmdCode) {
 		case ProtocolManager.CmdCode.ADD_USER:

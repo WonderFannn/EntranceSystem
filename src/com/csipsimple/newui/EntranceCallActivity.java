@@ -12,6 +12,7 @@ import com.csipsimple.api.SipCallSession;
 import com.csipsimple.api.SipManager;
 import com.csipsimple.api.SipCallSession.StatusCode;
 import com.csipsimple.newui.view.PowerImageView;
+import com.csipsimple.serialport.util.LocalNameManager;
 //import com.csipsimple.newui.view.PowerImageView;
 import com.csipsimple.service.SipService;
 import com.csipsimple.ui.incall.CallProximityManager;
@@ -63,6 +64,7 @@ public class EntranceCallActivity extends Activity implements
 	
 	private PowerImageView pivCallStatus;
 	private TextView tvCallStatus;
+	private TextView tvLocalName;
 
 	/**
 	 * Service binding
@@ -98,6 +100,8 @@ public class EntranceCallActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_entrance_call);
 		Log.d("wangfan", THIS_FILE + " start");
+		tvLocalName = (TextView) findViewById(R.id.tv_localname);
+		tvLocalName.setText(LocalNameManager.readFile());
 		
 		mainFrame = (ViewGroup) findViewById(R.id.mainFrame);
 		pivCallStatus = (PowerImageView) findViewById(R.id.piv_callstatus);

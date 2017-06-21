@@ -7,6 +7,7 @@ import com.csipsimple.newui.view.ShowToastThread;
 import com.csipsimple.serialport.protocol.ProtocolManager;
 import com.csipsimple.serialport.util.CRC8;
 import com.csipsimple.serialport.util.Hex;
+import com.csipsimple.serialport.util.LocalNameManager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -34,12 +35,16 @@ public class PasswordOpenDoorActivity extends Activity implements
 	
 	private int[] newPassword = new int[6];
 	private int newPasswordIndex = 0;
+	
+	private TextView tvLocalName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_modify_password);
 
+		tvLocalName = (TextView) findViewById(R.id.tv_localname);
+		tvLocalName.setText(LocalNameManager.readFile());
 		Intent intent = getIntent();
 		verifyPassword = intent.getByteArrayExtra("password");
 		

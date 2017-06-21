@@ -5,6 +5,7 @@ import com.csipsimple.R;
 import com.csipsimple.newui.view.ShowToastThread;
 import com.csipsimple.serialport.protocol.ProtocolManager;
 import com.csipsimple.serialport.util.CRC8;
+import com.csipsimple.serialport.util.LocalNameManager;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -23,11 +24,14 @@ public class AdminSetLockTimeActivity extends Activity implements
 	
 	private TextView tvShowEditNum;
 	private TextView tvMessage;
+	private TextView tvLocalName;
 	
 	private String lockTime = "";
 
 	private void findViews() {
 		
+		tvLocalName = (TextView) findViewById(R.id.tv_localname);
+		tvLocalName.setText(LocalNameManager.readFile());
 		tvShowEditNum = (TextView) findViewById(R.id.tv_show_edit_num);
 		tvMessage = (TextView) findViewById(R.id.tv_message);
 		

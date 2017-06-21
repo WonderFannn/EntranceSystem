@@ -1,16 +1,15 @@
 package com.csipsimple.newui;
 
-import java.nio.ByteBuffer;
 
 import com.csipsimple.R;
 import com.csipsimple.newui.view.ShowToastThread;
 import com.csipsimple.serialport.protocol.ProtocolManager;
 import com.csipsimple.serialport.util.CRC8;
 import com.csipsimple.serialport.util.Hex;
+import com.csipsimple.serialport.util.LocalNameManager;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -36,12 +35,16 @@ public class ModifyPasswordActivity extends Activity implements
 	private int mode;
 	private int[] newPassword = new int[6];
 	private int newPasswordIndex = 0;
+	
+	private TextView tvLocalName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_modify_password);
 		
+		tvLocalName = (TextView) findViewById(R.id.tv_localname);
+		tvLocalName.setText(LocalNameManager.readFile());
 
 		Intent passwordIntent = getIntent();
 		userIDByte = passwordIntent.getByteArrayExtra("userIDByte");
@@ -85,22 +88,31 @@ public class ModifyPasswordActivity extends Activity implements
 		case 155:
 //			*键
 			if (newPasswordIndex == 6) {
-				// 计算出用户IDbyte
-				byte[] byteId = userIDByte;
-				// 密码转为byte数组
-				byte[] bytePassword = new byte[6];
-				for (int i = 0; i < newPasswordIndex; i++) {
-					bytePassword[i] = (byte) newPassword[i];
+				if (newPassword[0] == newPassword[1] && newPassword[0] == newPassword[2]
+					&& newPassword[0] == newPassword[3]	&& newPassword[0] == newPassword[4]
+					&& newPassword[0] == newPassword[5]) {
+					
+					mShowToastThread = new ShowToastThread(this, "输入密码过于简单");
+					mShowToastThread.start();
+					
+				}else {
+					// 计算出用户IDbyte
+					byte[] byteId = userIDByte;
+					// 密码转为byte数组
+					byte[] bytePassword = new byte[6];
+					for (int i = 0; i < newPasswordIndex; i++) {
+						bytePassword[i] = (byte) newPassword[i];
+					}
+					
+					byte[] mBuffer;
+					mBuffer = Hex.byteMerger(ProtocolManager.CmdCode.MODIFY, byteId);//5
+					mBuffer = Hex.byteMerger(mBuffer, bytePassword);//11
+					mBuffer = Hex.byteMerger(mBuffer, (byte) mode);//12
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.invalidSum);//15
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultFrame);//16
+					mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultCRC);//17
+					mSerialPortUtil.sendBuffer(mBuffer);
 				}
-				
-				byte[] mBuffer;
-				mBuffer = Hex.byteMerger(ProtocolManager.CmdCode.MODIFY, byteId);//5
-				mBuffer = Hex.byteMerger(mBuffer, bytePassword);//11
-				mBuffer = Hex.byteMerger(mBuffer, (byte) mode);//12
-				mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.invalidSum);//15
-				mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultFrame);//16
-				mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultCRC);//17
-				mSerialPortUtil.sendBuffer(mBuffer);
 			}else {
 				mShowToastThread = new ShowToastThread(this, "请输入正确的密码");
 				mShowToastThread.start();

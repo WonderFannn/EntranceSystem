@@ -7,6 +7,7 @@ import com.csipsimple.R;
 import com.csipsimple.newui.view.ShowToastThread;
 import com.csipsimple.serialport.protocol.ProtocolManager;
 import com.csipsimple.serialport.util.CRC8;
+import com.csipsimple.serialport.util.LocalNameManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,6 +31,7 @@ public class AdminSettingActivity extends Activity implements OnDataReceiveListe
 	private SerialPortUtil mSerialPortUtil;
 	private ShowToastThread mShowToastThread;
 
+	private TextView tvLocalName;
 	private TextView tvMessage;
 	
 	private TextView mTitleTextView;
@@ -42,6 +44,8 @@ public class AdminSettingActivity extends Activity implements OnDataReceiveListe
 	
 	private void findViews() {
 		
+		tvLocalName = (TextView) findViewById(R.id.tv_localname);
+		tvLocalName.setText(LocalNameManager.readFile());
 		tvMessage = (TextView) findViewById(R.id.tv_message);
 		tvMessage.setText("按数字键选择功能,#键返回\n1.添加用户.\n2.删除用户\n3.添加密码用户\n4.删除密码用户\n5.设置回锁时间\n");
 	}

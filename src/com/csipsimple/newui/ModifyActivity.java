@@ -8,6 +8,7 @@ import com.csipsimple.newui.view.ShowToastThread;
 import com.csipsimple.serialport.protocol.ProtocolManager;
 import com.csipsimple.serialport.util.CRC8;
 import com.csipsimple.serialport.util.Hex;
+import com.csipsimple.serialport.util.LocalNameManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -51,7 +52,10 @@ public class ModifyActivity extends Activity implements OnDataReceiveListener {
 	private int mode = 0;
 	private String[] modeStrings = {"Œ¥ªÒ»°µΩƒ£ Ω","ø®∫≈","√‹¬Î","ø®∫≈+√‹¬Î"};
 
+	private TextView tvLocalName;
 	private void findViews() {
+		tvLocalName = (TextView) findViewById(R.id.tv_localname);
+		tvLocalName.setText(LocalNameManager.readFile());
 		textViewUserId = (TextView) findViewById(R.id.TextView_user_ID);
 		textViewUserPassword = (TextView) findViewById(R.id.TextView_user_password);
 		textViewUserMode = (TextView) findViewById(R.id.TextView_user_mode);

@@ -7,6 +7,7 @@ import com.csipsimple.newui.view.ShowToastThread;
 import com.csipsimple.serialport.protocol.ProtocolManager;
 import com.csipsimple.serialport.util.CRC8;
 import com.csipsimple.serialport.util.Hex;
+import com.csipsimple.serialport.util.LocalNameManager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.TextView;
 import android.widget.Toast;
 import android_serialport_api.SerialPortUtil;
 import android_serialport_api.SerialPortUtil.OnDataReceiveListener;
@@ -29,12 +31,16 @@ public class ModifyModeActivity extends Activity implements
 	private byte[] passwordByte;
 	private int mode;
 	private int newMode;
+	
+	private TextView tvLocalName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_showmessage);
 
+		tvLocalName = (TextView) findViewById(R.id.tv_localname);
+		tvLocalName.setText(LocalNameManager.readFile());
 		mSerialPortUtil = SerialPortUtil.getInstance();
 
 		Intent passwordIntent = getIntent();
