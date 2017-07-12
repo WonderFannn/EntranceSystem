@@ -89,7 +89,7 @@ public class AdminSelectRelayActivity extends Activity implements OnDataReceiveL
 		mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.invalidId);//6
 		mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.invalidPassword);//12
 		//单独约定少加一位的mode
-//		mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultMode);//13
+		//mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultMode);//13
 		mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.invalidSum);//16 - 1
 		mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultFrame);//17 -1
 		mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultCRC);//18 - 1
