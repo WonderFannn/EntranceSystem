@@ -7,6 +7,7 @@ import com.csipsimple.R;
 import com.csipsimple.newui.view.ShowToastThread;
 import com.csipsimple.serialport.protocol.ProtocolManager;
 import com.csipsimple.serialport.util.CRC8;
+import com.csipsimple.serialport.util.Hex;
 import com.csipsimple.serialport.util.LocalNameManager;
 
 import android.app.Activity;
@@ -43,21 +44,18 @@ public class AdminSettingActivity extends Activity implements OnDataReceiveListe
 	private boolean isVerify = false;
 	
 	private void findViews() {
-		
 		tvLocalName = (TextView) findViewById(R.id.tv_localname);
 		tvLocalName.setText(LocalNameManager.readFile());
 		tvMessage = (TextView) findViewById(R.id.tv_message);
-		tvMessage.setText("按数字键选择功能,#键返回\n1.添加用户.\n2.删除用户\n3.添加密码用户\n4.删除密码用户\n5.设置回锁时间\n");
+		tvMessage.setText("按数字键选择功能,#键返回\n1.添加用户		2.删除用户\n3.添加密码用户		4.删除密码用户\n5.设置回锁时间\n6.选择继电器\n7.打开扩展设备		8.关闭扩展设备");
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_showmessage);
-		
 		findViews();
 		mSerialPortUtil = SerialPortUtil.getInstance();
-
 		//55AA550012F4FFFFFFFF FFFFFFFFFFFFFF07D00A0000
 		byte[] mBuffer = {(byte) 0xF4,//命令字
 							//验证模式卡号密码用ff填充
@@ -73,13 +71,11 @@ public class AdminSettingActivity extends Activity implements OnDataReceiveListe
 	}
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		mSerialPortUtil.setOnDataReceiveListener(this);
 	}
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		mSerialPortUtil.closeReadThread();
 	}
@@ -141,33 +137,52 @@ public class AdminSettingActivity extends Activity implements OnDataReceiveListe
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case 8:
-			
 			Intent intent1 = new Intent(this,AdminManageUserActivity.class);
 			intent1.putExtra("cmdCode", ProtocolManager.CmdCode.ADD_USER);
 			startActivity(intent1);
 			break;
 		case 9:
-			
 			Intent intent2 = new Intent(this,AdminManageUserActivity.class);
 			intent2.putExtra("cmdCode", ProtocolManager.CmdCode.DELETE_USER);
 			startActivity(intent2);
 			break;
 		case 10:
-			
 			Intent intent3 = new Intent(this,AdminManagePasswordUserActivity.class);
 			intent3.putExtra("cmdCode", ProtocolManager.CmdCode.ADD_USER);
 			startActivity(intent3);
 			break;
 		case 11:
-			
 			Intent intent4 = new Intent(this,AdminManagePasswordUserActivity.class);
 			intent4.putExtra("cmdCode", ProtocolManager.CmdCode.DELETE_USER);
 			startActivity(intent4);
 			break;
 		case 12:
-			
 			Intent intent5 = new Intent(this,AdminSetLockTimeActivity.class);
 			startActivity(intent5);
+			break;
+		case 13:
+			Intent intent6 = new Intent(this,AdminSelectRelayActivity.class);
+			startActivity(intent6);
+			break;
+		case 14:
+			byte[] mBufferOpenExtendRelay;
+			mBufferOpenExtendRelay = Hex.byteMerger(ProtocolManager.CmdCode.OPEN_EXTEND_RELAY, ProtocolManager.invalidId);//5
+			mBufferOpenExtendRelay = Hex.byteMerger(mBufferOpenExtendRelay, ProtocolManager.invalidPassword);//11
+			mBufferOpenExtendRelay = Hex.byteMerger(mBufferOpenExtendRelay, ProtocolManager.defaultMode);//12
+			mBufferOpenExtendRelay = Hex.byteMerger(mBufferOpenExtendRelay, ProtocolManager.invalidSum);//15
+			mBufferOpenExtendRelay = Hex.byteMerger(mBufferOpenExtendRelay, ProtocolManager.defaultFrame);//16
+			mBufferOpenExtendRelay = Hex.byteMerger(mBufferOpenExtendRelay, ProtocolManager.defaultCRC);//17
+			mSerialPortUtil.sendBuffer(mBufferOpenExtendRelay);
+			break;
+		case 15:
+			byte[] mBufferCloseExtendRelay;
+			mBufferCloseExtendRelay = Hex.byteMerger(ProtocolManager.CmdCode.CLOSE_EXTEND_RELAY, ProtocolManager.invalidId);//5
+			mBufferCloseExtendRelay = Hex.byteMerger(mBufferCloseExtendRelay, ProtocolManager.invalidPassword);//11
+			mBufferCloseExtendRelay = Hex.byteMerger(mBufferCloseExtendRelay, ProtocolManager.defaultMode);//12
+			mBufferCloseExtendRelay = Hex.byteMerger(mBufferCloseExtendRelay, ProtocolManager.invalidSum);//15
+			mBufferCloseExtendRelay = Hex.byteMerger(mBufferCloseExtendRelay, ProtocolManager.defaultFrame);//16
+			mBufferCloseExtendRelay = Hex.byteMerger(mBufferCloseExtendRelay, ProtocolManager.defaultCRC);//17
+			mSerialPortUtil.sendBuffer(mBufferCloseExtendRelay);
 			break;
 		case 18:
 			finish();
@@ -198,6 +213,24 @@ public class AdminSettingActivity extends Activity implements OnDataReceiveListe
 				}
 			}else if (ProtocolManager.ReturnStatus.FAIL == reciveBuf[ProtocolManager.RETURN_STATUS_INDEX]) {
 				mShowToastThread = new ShowToastThread(this,"验证失败");
+				mShowToastThread.start();
+			}
+			break;
+		case ProtocolManager.CmdCode.OPEN_EXTEND_RELAY:
+			if (ProtocolManager.ReturnStatus.SUCCESS == reciveBuf[ProtocolManager.RETURN_STATUS_INDEX]) {
+				mShowToastThread = new ShowToastThread(this,"打开扩展设备成功");
+				mShowToastThread.start();
+			}else if (ProtocolManager.ReturnStatus.FAIL == reciveBuf[ProtocolManager.RETURN_STATUS_INDEX]) {
+				mShowToastThread = new ShowToastThread(this,"打开扩展设备失败");
+				mShowToastThread.start();
+			}
+			break;
+		case ProtocolManager.CmdCode.CLOSE_EXTEND_RELAY:
+			if (ProtocolManager.ReturnStatus.SUCCESS == reciveBuf[ProtocolManager.RETURN_STATUS_INDEX]) {
+				mShowToastThread = new ShowToastThread(this,"关闭扩展设备成功");
+				mShowToastThread.start();
+			}else if (ProtocolManager.ReturnStatus.FAIL == reciveBuf[ProtocolManager.RETURN_STATUS_INDEX]) {
+				mShowToastThread = new ShowToastThread(this,"关闭扩展设备失败");
 				mShowToastThread.start();
 			}
 			break;

@@ -154,8 +154,8 @@ public class VideoCaptureDeviceInfoAndroid {
             // We'd like to find a bandwidth < 1 Mbits
             if (bestBandwidth == 0 ||
                     (currentBandwidth < bestBandwidth && currentBandwidth >= maxBestBandwidth)) {
-                newDevice.bestCapability.width = s.width;
-                newDevice.bestCapability.height = s.height;
+                newDevice.bestCapability.width = 320;
+                newDevice.bestCapability.height = 240;
                 newDevice.bestCapability.maxFPS = maxFPS;
                 bestBandwidth = currentBandwidth;
             } else if (currentBandwidth < maxBestBandwidth) {
@@ -163,8 +163,8 @@ public class VideoCaptureDeviceInfoAndroid {
                         s.height > newDevice.bestCapability.height ||
                         bestBandwidth > maxBestBandwidth) {
                     if(s.height != s.width) {
-                        newDevice.bestCapability.width = s.width;
-                        newDevice.bestCapability.height = s.height;
+                        newDevice.bestCapability.width = 320;
+                        newDevice.bestCapability.height = 240;
                         newDevice.bestCapability.maxFPS = maxFPS;
                         bestBandwidth = currentBandwidth;
                     }

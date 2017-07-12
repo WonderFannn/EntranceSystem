@@ -341,7 +341,7 @@ public class UAStateReceiver extends Callback {
         pjService.service.sendBroadcast(intent, SipManager.PERMISSION_USE_SIP);
 
         // Notify android os of the new message
-        notificationManager.showNotificationForMessage(msg);
+//        notificationManager.showNotificationForMessage(msg);
         unlockCpu();
     }
 

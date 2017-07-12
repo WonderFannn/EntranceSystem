@@ -1137,7 +1137,7 @@ public class PjSipService {
                                 int h264profile = SipConfigManager.getPreferenceIntegerValue(
                                         service, SipConfigManager.H264_PROFILE, 66);
                                 int h264level = SipConfigManager.getPreferenceIntegerValue(service,
-                                        SipConfigManager.H264_LEVEL, 30);
+                                        SipConfigManager.H264_LEVEL, 12);
                                 int h264bitrate = SipConfigManager.getPreferenceIntegerValue(
                                         service, SipConfigManager.H264_BITRATE, 0);
 

@@ -13,10 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.database.CharArrayBuffer;
@@ -50,6 +52,7 @@ import com.csipsimple.api.ISipService;
 import com.csipsimple.api.SipCallSession;
 import com.csipsimple.api.SipConfigManager;
 import com.csipsimple.api.SipManager;
+import com.csipsimple.api.SipMessage;
 import com.csipsimple.api.SipProfile;
 import com.csipsimple.api.SipUri.ParsedSipContactInfos;
 import com.csipsimple.db.DBProvider;
@@ -58,6 +61,7 @@ import com.csipsimple.newui.view.ShowToastThread;
 import com.csipsimple.pjsip.PjSipService;
 import com.csipsimple.serialport.protocol.ProtocolManager;
 import com.csipsimple.serialport.util.CRC8;
+import com.csipsimple.serialport.util.Hex;
 import com.csipsimple.serialport.util.LocalNameManager;
 import com.csipsimple.service.SipService;
 import com.csipsimple.ui.prefs.AudioTester;
@@ -84,6 +88,8 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 	protected SipProfile account = null;
 	private Context context;
 
+	private OpenDoorReceiver receiver;
+	
 	private ISipService service;
 	private ServiceConnection connection = new ServiceConnection() {
 		@Override
@@ -258,6 +264,11 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 				placeVideoCall();
 			}
 		});
+		
+		receiver = new OpenDoorReceiver();
+		IntentFilter filter = new IntentFilter();  
+		filter.addAction(SipManager.ACTION_SIP_MESSAGE_RECEIVED);  
+		registerReceiver(receiver, filter);  
 	}
 
 	@Override
@@ -294,6 +305,7 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 	protected void onDestroy() {
 		super.onDestroy();
 		unbindService(connection);
+		unregisterReceiver(receiver);
 	}
 
 	@Override
@@ -601,10 +613,34 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 				startActivity(passwordIntent);
 			}
 			break;
-		
+
 		default:
 			break;
 		}
 	}
+	
+	public class OpenDoorReceiver extends BroadcastReceiver {  
+	      
+	    private static final String TAG = "OrderedBroadcast";  
+	      
+	    @Override  
+	    public void onReceive(Context context, Intent intent) {  
+	    	String sender = intent.getStringExtra(SipMessage.FIELD_FROM);
+	    	sender = sender.substring(0,sender.indexOf("@"));
+	        String msg = intent.getStringExtra(SipMessage.FIELD_BODY);  
+	        Log.i(TAG, "Receiver: " +msg);  
+	        String suit = "open";
+	        if (msg.indexOf(suit) >= 0) {
+	        	byte[] mBuffer;
+				mBuffer = Hex.byteMerger(ProtocolManager.CmdCode.OPEN_DOOR, ProtocolManager.invalidId);//5
+				mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.invalidPassword);//11
+				mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultMode);//12
+				mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.invalidSum);//15
+				mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultFrame);//16
+				mBuffer = Hex.byteMerger(mBuffer, ProtocolManager.defaultCRC);//17
+				mSerialPortUtil.sendBuffer(mBuffer);
+			}
+	    }  
+	}  
 
 }

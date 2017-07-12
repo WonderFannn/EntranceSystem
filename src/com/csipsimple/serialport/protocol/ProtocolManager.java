@@ -29,6 +29,9 @@ public class ProtocolManager {
 		public static final byte CLEAR_ADMIN = (byte) 0xFB;
 		public static final byte UPLOAD_CARD = (byte) 0xFC;
 		public static final byte PASSWORD_OPEN_DOOR = (byte) 0xFD;
+		public static final byte SELECT_RELAY = (byte) 0xB1;
+		public static final byte OPEN_EXTEND_RELAY = (byte) 0xB2;
+		public static final byte CLOSE_EXTEND_RELAY = (byte) 0xB3;
 	}
 	
 	public static class ReturnStatus{

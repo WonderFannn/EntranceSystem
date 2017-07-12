@@ -58,33 +58,47 @@ public class CRC8 {
 
     // 测试  
     public static void main(String[] args) {
-    	byte[] abb = new byte[] { 0x55, (byte) 0xAA, 0x55, 
-    			0x00, 0x0F, 
-        		(byte) 0xFC, 
-        		(byte) 0x9B,(byte) 0xB8,(byte) 0x33,(byte) 0xC5,
-        		0x01,0x02,0x03,0x06,0x09,0x00,
-        		0x03,0x10,(byte) 0x20,(byte) 0xF4};
-    	byte[] abb1 = new byte[] { 0x55, (byte) 0xAA, 0x55, 
-    			0x00, 0x10, 
-    			(byte) 0xF6, 
-    			(byte) 0x00,(byte) 0x6B,(byte) 0x32,(byte) 0x65,(byte) 0xC5,
-    			0x01,0x02,0x03,0x04,0x05,0x06,
-    			0x01,(byte) 0x82,(byte) 0xAC,(byte) 0xDF};
     	
-    	if (abb1[abb1.length-1] != CRC8.calcCrc8(abb1,0,abb1.length-1)) {
-    		System.out.println("判断不相等");
-    	}
+    	String aStringaString = "0507@446.595.589";
+    	aStringaString = aStringaString.substring(0,aStringaString.indexOf("@"));
+    	System.out.println(aStringaString);
     	
-        byte crc = CRC8.calcCrc8(abb1,0,abb1.length-1);
-        System.out.println("" + Integer.toHexString(0x00ff & crc));
-        int len = 65534;
-        byte a = (byte)(len>>8);
-        byte b = (byte)len;        
-        System.out.println("" + Integer.toHexString(a));
-        System.out.println("" + Integer.toHexString(b));
-        System.out.println("" + Integer.toHexString((byte) 0xff));
-        if (a == (byte)0xff) {
-        	System.out.println("" + b);
-		}
+    	String aString = "ehfkhkh(123456789)";
+    	String bString = aString.substring(aString.indexOf("(")+1,aString.indexOf(")"));
+    	
+    	System.out.println(aString.indexOf(bString));
+    	System.out.println(aString.indexOf("23"));
+    	System.out.println(aString.indexOf("235"));
+    	
+    	
+    	
+//    	byte[] abb = new byte[] { 0x55, (byte) 0xAA, 0x55, 
+//    			0x00, 0x0F, 
+//        		(byte) 0xFC, 
+//        		(byte) 0x9B,(byte) 0xB8,(byte) 0x33,(byte) 0xC5,
+//        		0x01,0x02,0x03,0x06,0x09,0x00,
+//        		0x03,0x10,(byte) 0x20,(byte) 0xF4};
+//    	byte[] abb1 = new byte[] { 0x55, (byte) 0xAA, 0x55, 
+//    			0x00, 0x10, 
+//    			(byte) 0xF6, 
+//    			(byte) 0x00,(byte) 0x6B,(byte) 0x32,(byte) 0x65,(byte) 0xC5,
+//    			0x01,0x02,0x03,0x04,0x05,0x06,
+//    			0x01,(byte) 0x82,(byte) 0xAC,(byte) 0xDF};
+//    	
+//    	if (abb1[abb1.length-1] != CRC8.calcCrc8(abb1,0,abb1.length-1)) {
+//    		System.out.println("判断不相等");
+//    	}
+//    	
+//        byte crc = CRC8.calcCrc8(abb1,0,abb1.length-1);
+//        System.out.println("" + Integer.toHexString(0x00ff & crc));
+//        int len = 65534;
+//        byte a = (byte)(len>>8);
+//        byte b = (byte)len;        
+//        System.out.println("" + Integer.toHexString(a));
+//        System.out.println("" + Integer.toHexString(b));
+//        System.out.println("" + Integer.toHexString((byte) 0xff));
+//        if (a == (byte)0xff) {
+//        	System.out.println("" + b);
+//		}
     }  
 }

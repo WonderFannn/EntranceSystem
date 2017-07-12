@@ -31,7 +31,7 @@
     <!--
     <uses-permission android:name="android.permission.CALL_PRIVILEGED" /> 
     was useless anyway as only granted to system app and
-    we don't have core integration anymore with these plugins
+    we don't have core integration anymore with these plugins
     -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
@@ -45,13 +45,12 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
-    
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!--
     Not taken into account?
     Regarding Diane's comment this was never implemented 
     and was dropped in most recent android versions 
-    <uses-permission android:name="android.permission.RAISED_THREAD_PRIORITY" />
+    <uses-permission android:name="android.permission.RAISED_THREAD_PRIORITY" />
     -->
 
 
@@ -122,25 +121,23 @@
         Samsung multiview support
         <uses-library
             android:name="com.sec.android.app.multiwindow"
-            android:required="false" />
+            android:required="false" />
         -->
         <meta-data
             android:name="com.sec.android.support.multiwindow"
             android:value="true" />
-       
 
-       <activity
+        <activity
             android:name="com.csipsimple.newui.EntranceActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
-        </activity> 
-		
-       
-       <activity
+        </activity>
+        <activity
             android:name="com.csipsimple.newui.EntranceCallActivity"
             android:allowTaskReparenting="true"
             android:configChanges="orientation"
@@ -157,71 +154,62 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
-       <activity
+        <activity
             android:name="com.csipsimple.newui.ModifyActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
-            
-             
-        </activity> 
-        
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
         <activity
             android:name="com.csipsimple.newui.ModifyPasswordActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
-        </activity> 
-        
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
         <activity
             android:name="com.csipsimple.newui.ModifyModeActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
-        </activity> 
-        
-         <activity
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
             android:name="com.csipsimple.newui.AdminSettingActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
-             
-             
-        </activity> 
-        
-          <activity
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
             android:name="com.csipsimple.newui.AdminManageUserActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
-        </activity> 
-        
-          <activity
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
             android:name="com.csipsimple.newui.AdminManagePasswordUserActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
-        </activity> 
-        
-           <activity
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
             android:name="com.csipsimple.newui.AdminSetLockTimeActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
-        </activity> 
-        
-           <activity
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
             android:name="com.csipsimple.newui.PasswordOpenDoorActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
-        </activity> 
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
+            android:name="com.csipsimple.newui.AdminSelectRelayActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
         <activity
             android:name="com.csipsimple.newui.GodModeActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
-        </activity> 
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
         <activity
-			android:name="com.csipsimple.ui.SipHome" 
+            android:name="com.csipsimple.ui.SipHome"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:theme="@style/DarkTheme"
             android:uiOptions="splitActionBarWhenNarrow" >
-             
-
             <intent-filter android:priority="10" >
                 <action android:name="com.csipsimple.phone.action.DIALER" />
 
@@ -298,7 +286,6 @@
             android:exported="true"
             android:permission="android.permission.CONFIGURE_SIP"
             android:process=":sipStack" >
- 
             <intent-filter>
                 <action android:name="com.csipsimple.service.SipService" />
                 <action android:name="com.csipsimple.service.SipConfiguration" />
@@ -527,7 +514,6 @@
             android:process=":sipStack"
             android:taskAffinity=""
             android:theme="@style/DarkTheme.NoTitle" >
-           
         </activity>
         <activity
             android:name="com.csipsimple.ui.PickupSipUri"
@@ -658,7 +644,7 @@
             <meta-data
                 android:name="init_factory"
                 android:value="pjmedia_webrtc_vid_capture_factory" />
-        </receiver>
+        </receiver>
         -->
         <receiver android:name=".PluginReceiverFfmpeg" >
             <intent-filter>
