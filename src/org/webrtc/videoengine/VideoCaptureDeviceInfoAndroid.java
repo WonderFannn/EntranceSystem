@@ -132,7 +132,7 @@ public class VideoCaptureDeviceInfoAndroid {
             maxFPS = 15;
         }
         //设置帧率最大值    
-        maxFPS = 15 > maxFPS ? maxFPS:15;
+//        maxFPS = 10 > maxFPS ? maxFPS:10;
         
         newDevice.captureCapabilies = new CaptureCapabilityAndroid[sizes.size()];
         newDevice.bestCapability = new CaptureCapabilityAndroid();
@@ -150,12 +150,13 @@ public class VideoCaptureDeviceInfoAndroid {
             
             // We use h264 primer formula here to estimate bandwidth need
             int currentBandwidth = (int) (s.width * s.height * maxFPS * 0.07);
-            int maxBestBandwidth = 1000000;
+//            int maxBestBandwidth = 1000000;
+            int maxBestBandwidth = (int) (640 * 480 * maxFPS * 0.07);
             // We'd like to find a bandwidth < 1 Mbits
             if (bestBandwidth == 0 ||
                     (currentBandwidth < bestBandwidth && currentBandwidth >= maxBestBandwidth)) {
-                newDevice.bestCapability.width = 320;
-                newDevice.bestCapability.height = 240;
+                newDevice.bestCapability.width = s.width;
+                newDevice.bestCapability.height = s.height;
                 newDevice.bestCapability.maxFPS = maxFPS;
                 bestBandwidth = currentBandwidth;
             } else if (currentBandwidth < maxBestBandwidth) {
@@ -163,8 +164,8 @@ public class VideoCaptureDeviceInfoAndroid {
                         s.height > newDevice.bestCapability.height ||
                         bestBandwidth > maxBestBandwidth) {
                     if(s.height != s.width) {
-                        newDevice.bestCapability.width = 320;
-                        newDevice.bestCapability.height = 240;
+                        newDevice.bestCapability.width = s.width;
+                        newDevice.bestCapability.height = s.height;
                         newDevice.bestCapability.maxFPS = maxFPS;
                         bestBandwidth = currentBandwidth;
                     }

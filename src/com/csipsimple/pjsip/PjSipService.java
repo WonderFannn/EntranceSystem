@@ -85,7 +85,6 @@ import org.pjsip.pjsua.pjsip_tls_setting;
 import org.pjsip.pjsua.pjsip_transport_type_e;
 import org.pjsip.pjsua.pjsua;
 import org.pjsip.pjsua.pjsuaConstants;
-import org.pjsip.pjsua.pjsua_acc_config;
 import org.pjsip.pjsua.pjsua_acc_info;
 import org.pjsip.pjsua.pjsua_buddy_config;
 import org.pjsip.pjsua.pjsua_call_flag;
@@ -1039,7 +1038,9 @@ public class PjSipService {
                 nbrCodecs = pjsua.codecs_vid_get_nbr();          
                 for (i = 0; i < nbrCodecs; i++) {
                     String codecId = pjStrToString(pjsua.codecs_vid_get_id(i));
-                    video_codecs.add(codecId);
+                    if (codecId.startsWith("H264")) {
+                    	video_codecs.add(codecId);
+					}
                     Log.d(THIS_FILE, "Added video codec " + codecId);
                 }
                 // Set it in prefs if not already set correctly

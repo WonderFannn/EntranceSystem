@@ -102,7 +102,7 @@ public class PreferencesWrapper {
 		put(SipConfigManager.HEADSET_ACTION, "0");
 		put(SipConfigManager.AUDIO_IMPLEMENTATION, "0");
 		put(SipConfigManager.H264_PROFILE, "66");
-		put(SipConfigManager.H264_LEVEL, "0");
+		put(SipConfigManager.H264_LEVEL, "13");
 		put(SipConfigManager.H264_BITRATE, "0");
         put(SipConfigManager.VIDEO_CAPTURE_SIZE, "");
 		
