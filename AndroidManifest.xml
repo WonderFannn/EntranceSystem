@@ -293,7 +293,15 @@
         </service>
         <service android:name="com.csipsimple.service.Downloader" />
         <service android:name="com.csipsimple.newui.BroadPushServerService" />
-
+      <service
+            android:name="com.csipsimple.service.RecongService"
+            android:enabled="true"
+           android:process =":remote"  
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.csipsimple.service.RecongService" />
+            </intent-filter>
+        </service>
         <receiver
             android:name="com.csipsimple.service.DeviceStateReceiver"
             android:process=":sipStack" >

@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.CharArrayBuffer;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -145,6 +146,30 @@ public class EntranceActivity extends Activity implements OnDataReceiveListener 
 			}else if (textViewPhoneNumber.getText().toString().equals("9527")) {
 				Intent intent = new Intent(this,GodModeActivity.class);
 				startActivity(intent);
+			}else if (textViewPhoneNumber.getText().toString().equals("8001")) {
+				PackageManager packageManager = getPackageManager();
+				Intent intent = new Intent();
+				intent =packageManager.getLaunchIntentForPackage("com.jinxin.facerecognition");
+				//这里面的值是你要跳转app的包名，你跳转的清单文件里的package名
+				//<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+//				    package="com.example.abc2"
+				//  android:versionCode="1"
+				//   android:versionName="1.0" >
+				startActivity(intent);
+			}else if (textViewPhoneNumber.getText().toString().equals("8002")) {
+				ComponentName comp = new ComponentName("com.jinxin.facerecognition","readsense.face.ui.icount.RegisterVideoCameraActivity"); 
+				//这里面的2个值是：
+				//1.你要跳转app的包名，你跳转的清单文件里的package名
+				//2.你要跳转app指定的Activity名
+				//<activity
+				 //Android:name="com.example.abc2.MainActivity2"
+				 //android:label="@string/app_name" 
+				  //android:exported="true"你要跳转的其他App Activity这个属性一定要加
+				//>
+				//</activity>
+				Intent it=new Intent(); 
+				it.setComponent(comp);
+				this.startActivity(it);
 			}else {
 				placeVideoCall();
 				callNuberIndex = 0;
